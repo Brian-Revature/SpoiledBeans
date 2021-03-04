@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.entities;
 
 import java.util.Objects;
 
@@ -9,14 +9,16 @@ public class Movie {
     private String director;
     private String genre;
     private String synopsis;
+    private int year;
 
     public Movie(){
         super();
     }
 
-    public Movie(String name, String director) {
+    public Movie(String name, String director, int year) {
         this.name = name;
         this.director = director;
+        this.year = year;
     }
 
     public int getId() {
@@ -59,17 +61,25 @@ public class Movie {
         this.synopsis = synopsis;
     }
 
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return id == movie.id && Objects.equals(name, movie.name) && Objects.equals(director, movie.director) && Objects.equals(genre, movie.genre) && Objects.equals(synopsis, movie.synopsis);
+        return id == movie.id && year == movie.year && Objects.equals(name, movie.name) && Objects.equals(director, movie.director) && Objects.equals(genre, movie.genre) && Objects.equals(synopsis, movie.synopsis);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, director, genre, synopsis);
+        return Objects.hash(id, name, director, genre, synopsis, year);
     }
 
     @Override
@@ -80,6 +90,7 @@ public class Movie {
                 ", director='" + director + '\'' +
                 ", genre='" + genre + '\'' +
                 ", synopsis='" + synopsis + '\'' +
+                ", year=" + year +
                 '}';
     }
 }

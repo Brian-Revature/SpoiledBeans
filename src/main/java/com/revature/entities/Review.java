@@ -1,5 +1,6 @@
-package com.revature.models;
+package com.revature.entities;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Review {
@@ -7,6 +8,7 @@ public class Review {
     private int id;
     private double rating;
     private String review;
+    private LocalDateTime reviewTime;
 
     public Review(){
         super();
@@ -41,17 +43,25 @@ public class Review {
         this.review = review;
     }
 
+    public LocalDateTime getReviewTime() {
+        return reviewTime;
+    }
+
+    public void setReviewTime(LocalDateTime reviewTime) {
+        this.reviewTime = reviewTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Review review1 = (Review) o;
-        return id == review1.id && Double.compare(review1.rating, rating) == 0 && Objects.equals(review, review1.review);
+        return id == review1.id && Double.compare(review1.rating, rating) == 0 && Objects.equals(review, review1.review) && Objects.equals(reviewTime, review1.reviewTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, rating, review);
+        return Objects.hash(id, rating, review, reviewTime);
     }
 
     @Override
@@ -60,6 +70,7 @@ public class Review {
                 "id=" + id +
                 ", rating=" + rating +
                 ", review='" + review + '\'' +
+                ", reviewTime=" + reviewTime +
                 '}';
     }
 }
