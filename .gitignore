@@ -23,6 +23,7 @@
 hs_err_pid*
 
 # production folders and files
+*.yml
 *.class
 target/
 out/

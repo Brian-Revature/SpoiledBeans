@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.entities;
 
 import java.util.Objects;
 
@@ -11,6 +11,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String bio;
+    private UserRole userRole;
 
     public User(){
         super();
@@ -21,8 +22,6 @@ public class User {
         this.password = password;
         this.email = email;
     }
-
-
 
     public int getId() {
         return id;
@@ -80,17 +79,25 @@ public class User {
         this.bio = bio;
     }
 
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(bio, user.bio);
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(bio, user.bio) && userRole == user.userRole;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, firstName, lastName, bio);
+        return Objects.hash(id, username, password, email, firstName, lastName, bio, userRole);
     }
 
     @Override
@@ -103,6 +110,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", bio='" + bio + '\'' +
+                ", userRole=" + userRole +
                 '}';
     }
 }
