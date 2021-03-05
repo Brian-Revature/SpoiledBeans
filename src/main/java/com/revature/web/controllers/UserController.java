@@ -34,6 +34,15 @@ public class UserController {
         userService.save(newUser);
     }
 
+    //TODO: Get User currently signed in to update/set values
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setBio(@RequestBody String bio){
+        User newUser = userService.getUserById(1);
+        newUser.setBio(bio);
+        userService.save(newUser);
+    }
+
 
 
 
