@@ -29,4 +29,9 @@ public class UserService {
         }
         return userRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
     }
+
+    //TODO: verify everything is in order when JWT established
+    public void save(User u) {
+        userRepo.save(u);
+    }
 }

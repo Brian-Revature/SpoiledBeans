@@ -23,4 +23,17 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    //TODO: Get User currently signed in to update/set values
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setName(@RequestParam String firstName, String lastName){
+        User newUser = userService.getUserById(1);
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        userService.save(newUser);
+    }
+
+
+
+
+
 }
