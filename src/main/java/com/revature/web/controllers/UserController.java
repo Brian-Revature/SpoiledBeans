@@ -25,7 +25,7 @@ public class UserController {
     }
 
     //TODO: Get User currently signed in to update/set values
-    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    @PutMapping(path = "/name", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void setName(@RequestBody Name name){
         User newUser = userService.getUserById(1);
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     //TODO: Get User currently signed in to update/set values
-    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    @PutMapping(path = "/bio" ,consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void setBio(@RequestBody String bio){
         User newUser = userService.getUserById(1);
