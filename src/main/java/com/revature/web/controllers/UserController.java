@@ -1,5 +1,6 @@
 package com.revature.web.controllers;
 
+import com.revature.dtos.Name;
 import com.revature.entities.User;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,19 @@ public class UserController {
     //TODO: Get User currently signed in to update/set values
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setName(@RequestBody String firstName, @RequestBody String lastName){
+    public void setName(@RequestBody Name name){
         User newUser = userService.getUserById(1);
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
+        newUser.setFirstName(name.getFirstName());
+        newUser.setLastName(name.getLastName());
+        userService.save(newUser);
+    }
+
+    //TODO: Get User currently signed in to update/set values
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setBio(@RequestBody String bio){
+        User newUser = userService.getUserById(1);
+        newUser.setBio(bio);
         userService.save(newUser);
     }
 
