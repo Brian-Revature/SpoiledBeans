@@ -1,13 +1,23 @@
 package com.revature.entities;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity @Table(name = "review")
 public class Review {
 
+    @Id @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false, columnDefinition = "NUMERIC(2,1)")
     private double rating;
+
+    @Column
     private String review;
+
+    @Column(name = "review_time", nullable = false)
     private LocalDateTime reviewTime;
 
     public Review(){

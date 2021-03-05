@@ -2,8 +2,8 @@ package com.revature.entities;
 
 public enum UserRole {
 
-    ADMIN("Admin"), BASIC_USER("Basic User"),
-    PREMIUM_USER("Premium User"), MODERATOR("Moderator");
+    EMPTY(""), ADMIN("Admin"), MODERATOR("Moderator"),
+    BASIC_USER("Basic User"), PREMIUM_USER("Premium User");
 
     private String name;
 
