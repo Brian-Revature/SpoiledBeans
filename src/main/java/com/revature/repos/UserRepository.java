@@ -11,7 +11,6 @@ import java.util.Set;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer>{
 
-
     Optional<User> findUserByUsername(String username);
     Set<User> findUsersByUserRole(String role);
     Optional<User> findUserByUsernameAndPassword(String username, String password);
