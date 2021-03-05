@@ -6,7 +6,7 @@ spring:
     name: SpoiledBeans-API
   datasource:
     platform: postgres
-    url: 
+    url:
     username:
     password:
     driverClassName: org.postgresql.Driver
