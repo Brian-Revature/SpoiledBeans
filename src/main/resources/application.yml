@@ -1,6 +1,0 @@
-server:
-  port: 5000 # ElasticBeanstalk expects for Java apps to be deployed on port 5000
-
-spring:
-  application:
-    name: quizzard
