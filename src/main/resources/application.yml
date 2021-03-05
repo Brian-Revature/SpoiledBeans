@@ -3,4 +3,21 @@ server:
 
 spring:
   application:
-    name: quizzard
+    name: SpoiledBeans-API
+  datasource:
+    platform: postgres
+    url: 
+    username:
+    password:
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL82Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
