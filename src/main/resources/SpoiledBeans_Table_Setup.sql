@@ -131,6 +131,8 @@ CREATE TABLE favorites (
 
 );
 
+--insert into movies ("name",release_date)
+--	values('dummyMovieTheSequel',2003);
 
 -- these drops should be in order to delete everything for recreation
 
