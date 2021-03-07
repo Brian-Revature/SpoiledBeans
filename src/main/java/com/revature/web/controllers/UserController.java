@@ -1,12 +1,17 @@
 package com.revature.web.controllers;
 
+import com.revature.dtos.FavoritesDTO;
 import com.revature.dtos.Name;
+import com.revature.dtos.ReviewsDTO;
 import com.revature.dtos.UserDTO;
+import com.revature.entities.Movie;
 import com.revature.entities.User;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -26,31 +31,31 @@ public class UserController {
     }
 
     //TODO: Get User currently signed in to update/set values
-    @PutMapping(path = "/name", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setName(@RequestBody Name name){
-        User newUser = userService.getUserById(1);
-        newUser.setFirstName(name.getFirstName());
-        newUser.setLastName(name.getLastName());
-        userService.save(newUser);
-    }
-
-    //TODO: Get User currently signed in to update/set values
-    @PutMapping(path = "/bio" ,consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setBio(@RequestBody String bio){
-        User newUser = userService.getUserById(1);
-        newUser.setBio(bio);
-        userService.save(newUser);
-    }
-
     @PutMapping(path = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public void updateUser(@RequestBody UserDTO userdto) {
        userService.updateUser(userdto,1);
     }
 
+    @GetMapping(path= "/myfavorites",produces= MediaType.APPLICATION_JSON_VALUE)
+    public FavoritesDTO getUserFavorites(@RequestParam int id) {
+        //Not clear how we are getting the user id or user data at this point
+        return userService.getUserFavorites(id);
+    }
 
+    @GetMapping(path= "/userfavorites",produces= MediaType.APPLICATION_JSON_VALUE)
+    public FavoritesDTO getUserFavorites(@RequestBody UserDTO userdto) {
+        return userService.getUserFavorites(userdto.getUsername());
+    }
 
+    @GetMapping(path= "/myreviews",produces= MediaType.APPLICATION_JSON_VALUE)
+    public ReviewsDTO getUserReviews(@RequestParam int id) {
+        //Not clear how we are getting the user id or user data at this point
+        return userService.getUserReviews(id);
+    }
 
+    @GetMapping(path= "/userreviews",produces= MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ReviewsDTO getUserReviews(@RequestBody UserDTO userdto) {
+        return userService.getUserReviews(userdto.getUsername());
+    }
 
 }

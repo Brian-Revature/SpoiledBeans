@@ -129,6 +129,22 @@ public class User {
         this.userRole = userRole;
     }
 
+    public List<Movie> getUserFavorites() {
+        return userFavorites;
+    }
+
+    public void setUserFavorites(List<Movie> userFavorites) {
+        this.userFavorites = userFavorites;
+    }
+
+    public List<Review> getUserReviews() {
+        return userReviews;
+    }
+
+    public void setUserReviews(List<Review> userReviews) {
+        this.userReviews = userReviews;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

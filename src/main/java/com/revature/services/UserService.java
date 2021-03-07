@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import com.revature.dtos.FavoritesDTO;
+import com.revature.dtos.ReviewsDTO;
 import com.revature.dtos.UserDTO;
 import com.revature.entities.User;
 import com.revature.exceptions.InvalidRequestException;
@@ -31,6 +33,14 @@ public class UserService {
         return userRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
     }
 
+    public User getUserByUsername(String username){
+
+        if(username==null || username.trim().equals("")){
+            throw new InvalidRequestException("Username cannot be empty or null");
+        }
+        return userRepo.findUserByUsername(username).orElseThrow(ResourceNotFoundException::new);
+    }
+
     //TODO: verify everything is in order when JWT established
     public void save(User u) {
         userRepo.save(u);
@@ -57,6 +67,46 @@ public class UserService {
             user.setBio(userdto.getBio());
         }
         userRepo.save(user);
+    }
+
+    private FavoritesDTO getFavoritesDTO(User user){
+
+        FavoritesDTO favs = new FavoritesDTO();
+        favs.setUsername(user.getUsername());
+        favs.setFavorites(user.getUserFavorites());
+        return favs;
+
+    }
+
+    public FavoritesDTO getUserFavorites(int id){
+
+        return getFavoritesDTO(getUserById(id));
+
+    }
+
+    public FavoritesDTO getUserFavorites(String username){
+
+        return getFavoritesDTO(getUserByUsername(username));
+    }
+
+    private ReviewsDTO getReviewsDTO(User user){
+
+        ReviewsDTO revs = new ReviewsDTO();
+        revs.setUsername(user.getUsername());
+        revs.setReviews(user.getUserReviews());
+        return revs;
+
+    }
+
+    public ReviewsDTO getUserReviews(int id){
+
+        return getReviewsDTO(getUserById(id));
+
+    }
+
+    public ReviewsDTO getUserReviews(String username){
+
+        return getReviewsDTO(getUserByUsername(username));
     }
 
 
