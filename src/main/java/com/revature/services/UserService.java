@@ -26,6 +26,34 @@ public class UserService {
         this.userRepo = repo;
     }
 
+    private void mapUserFromDTO(final User user, final UserDTO userdto) {
+        if(userdto.getUsername() != null && !userdto.getUsername().trim().equals("")) {
+            user.setUsername(userdto.getUsername());
+        }
+        if(userdto.getPassword() != null && !userdto.getPassword().trim().equals("")) {
+            user.setPassword(userdto.getPassword());
+        }
+        if(userdto.getFirstName() != null && !userdto.getFirstName().trim().equals("")) {
+            user.setFirstName(userdto.getFirstName());
+        }
+        if(userdto.getLastName() != null && !userdto.getLastName().trim().equals("")) {
+            user.setLastName(userdto.getLastName());
+        }
+        if(userdto.getEmail() != null && !userdto.getEmail().trim().equals("")) {
+            user.setEmail(userdto.getEmail());
+        }
+        if(userdto.getBio() != null && !userdto.getBio().trim().equals("")) {
+            user.setBio(userdto.getBio());
+        }
+    }
+
+    public void registerNewUser(final UserDTO userdto) {
+        final User user = new User();
+        mapUserFromDTO(user,userdto);
+        userRepo.save(user);
+
+    }
+
     public User getUserById(int id) {
         if (id <= 0 ) {
             throw new InvalidRequestException();
@@ -48,24 +76,7 @@ public class UserService {
 
     public void updateUser(final UserDTO userdto, final int user_id) {
         final User user = getUserById(user_id);
-        if(userdto.getUsername() != null && !userdto.getUsername().trim().equals("")) {
-            user.setUsername(userdto.getUsername());
-        }
-        if(userdto.getPassword() != null && !userdto.getPassword().trim().equals("")) {
-            user.setPassword(userdto.getPassword());
-        }
-        if(userdto.getFirstName() != null && !userdto.getFirstName().trim().equals("")) {
-            user.setFirstName(userdto.getFirstName());
-        }
-        if(userdto.getLastName() != null && !userdto.getLastName().trim().equals("")) {
-            user.setLastName(userdto.getLastName());
-        }
-        if(userdto.getEmail() != null && !userdto.getEmail().trim().equals("")) {
-            user.setEmail(userdto.getEmail());
-        }
-        if(userdto.getBio() != null && !userdto.getBio().trim().equals("")) {
-            user.setBio(userdto.getBio());
-        }
+        mapUserFromDTO(user,userdto);
         userRepo.save(user);
     }
 

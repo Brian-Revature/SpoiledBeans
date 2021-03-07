@@ -38,6 +38,11 @@ public class UserController {
         return userService.getUserFavorites(id);
     }
 
+    @PostMapping(path = "/registeruser", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public void registerNewUser(@RequestBody final UserDTO userdto) {
+        userService.registerNewUser(userdto);
+    }
+
     @GetMapping(path= "/userfavorites",produces= MediaType.APPLICATION_JSON_VALUE)
     public FavoritesDTO getUserFavorites(@RequestBody UserDTO userdto) {
         return userService.getUserFavorites(userdto.getUsername());
