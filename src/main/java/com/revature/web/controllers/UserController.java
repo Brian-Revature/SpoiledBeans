@@ -1,6 +1,7 @@
 package com.revature.web.controllers;
 
 import com.revature.dtos.Name;
+import com.revature.dtos.UserDTO;
 import com.revature.entities.User;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class UserController {
         User newUser = userService.getUserById(1);
         newUser.setBio(bio);
         userService.save(newUser);
+    }
+
+    @PutMapping(path = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateUser(@RequestBody UserDTO userdto) {
+       userService.updateUser(userdto,1);
     }
 
 
