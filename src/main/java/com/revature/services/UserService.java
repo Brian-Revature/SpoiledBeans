@@ -1,8 +1,10 @@
 package com.revature.services;
 
 import com.revature.dtos.FavoritesDTO;
+import com.revature.dtos.MoviesDTO;
 import com.revature.dtos.ReviewsDTO;
 import com.revature.dtos.UserDTO;
+import com.revature.entities.Movie;
 import com.revature.entities.User;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
@@ -18,12 +20,14 @@ public class UserService {
 
     private static final Logger LOG = LogManager.getLogger(UserService.class);
 
-    private UserRepository userRepo;
+    private final UserRepository userRepo;
+    private final MovieService movieService;
 
     @Autowired
-    public UserService(UserRepository repo) {
+    public UserService(UserRepository repo, MovieService movieService) {
         super();
         this.userRepo = repo;
+        this.movieService = movieService;
     }
 
     private void mapUserFromDTO(final User user, final UserDTO userdto) {
@@ -120,5 +124,22 @@ public class UserService {
         return getReviewsDTO(getUserByUsername(username));
     }
 
+    //TODO replace user search with current user.
+    public void addFavorite(final MoviesDTO moveisdto) {
+        final Movie movie = movieService.getMovieByName(moveisdto.getName());
+        final User user = getUserById(1);
+        user.addMovieToFavorites(movie);
+        System.out.println("user id " + user.getId());
+        System.out.println("movie id " + movie.getId());
+        userRepo.save(user);
 
+    }
+
+    //TODO replace user search with current user.
+    public void deleteUserFavorite(final MoviesDTO moviesDTO) {
+        final User user = getUserById(1);
+        final Movie movie = movieService.getMovieByName(moviesDTO.getName());
+        user.removeMovieFromFavorites(movie);
+        userRepo.save(user);
+    }
 }

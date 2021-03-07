@@ -133,6 +133,13 @@ public class User {
         return userFavorites;
     }
 
+    public void addMovieToFavorites(final Movie movie) {
+        if(userFavorites == null) {
+            userFavorites = new ArrayList<>();
+        }
+        userFavorites.add(movie);
+    }
+
     public void setUserFavorites(List<Movie> userFavorites) {
         this.userFavorites = userFavorites;
     }
@@ -170,5 +177,9 @@ public class User {
                 ", bio='" + bio + '\'' +
                 ", userRole=" + userRole +
                 '}';
+    }
+
+    public void removeMovieFromFavorites(final Movie movie) {
+        userFavorites.remove(movie);
     }
 }
