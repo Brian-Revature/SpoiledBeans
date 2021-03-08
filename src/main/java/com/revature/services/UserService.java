@@ -10,6 +10,7 @@ import com.revature.entities.User;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.UserRepository;
+import com.revature.web.intercom.OMDbClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -28,12 +30,14 @@ public class UserService {
 
     private final UserRepository userRepo;
     private final MovieService movieService;
+    private final OMDbClient omdb;
 
     @Autowired
-    public UserService(UserRepository repo, MovieService movieService) {
+    public UserService(UserRepository repo, MovieService movieService, OMDbClient omdb) {
         super();
         this.userRepo = repo;
         this.movieService = movieService;
+        this.omdb = omdb;
     }
 
     private void mapUserFromDTO(final User user, final UserDTO userdto) {
@@ -131,8 +135,9 @@ public class UserService {
     }
 
     //TODO replace user search with current user.
-    public void addFavorite(final MoviesDTO moveisdto) {
-        final Movie movie = movieService.getMovieByName(moveisdto.getName());
+    public void addFavorite(final MoviesDTO moviesDTO) {
+        movieService.saveNewMovie(moviesDTO);
+        final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         final User user = getUserById(1);
         user.addMovieToFavorites(movie);
         System.out.println("user id " + user.getId());
@@ -180,14 +185,14 @@ public class UserService {
         return reviews;
     }
 
-//    public void addReview(ReviewsDTO reviewsDTO) {
-//        final Movie movie = movieService.getMovieByName();
-//        final User user = getUserById(1);
-//
-//        System.out.println("user id " + user.getId());
-//        System.out.println("movie id " + movie.getId());
-//        userRepo.save(user);
-//    }
+    public void addReview(ReviewsDTO reviewsDTO) {
+        final Movie movie = movieService.getMovieById(reviewsDTO.getReviews().get(0).getId());
+        final User user = getUserById(1);
+
+        System.out.println("user id " + user.getId());
+        System.out.println("movie id " + movie.getId());
+        userRepo.save(user);
+    }
 
     public List<Movie> getUserFavoritesByName(boolean ascending) {
         final User user = getUserById(1);
