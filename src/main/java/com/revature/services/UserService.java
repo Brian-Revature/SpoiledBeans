@@ -5,14 +5,22 @@ import com.revature.dtos.MoviesDTO;
 import com.revature.dtos.ReviewsDTO;
 import com.revature.dtos.UserDTO;
 import com.revature.entities.Movie;
+import com.revature.entities.Review;
 import com.revature.entities.User;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.UserRepository;
+import com.revature.web.intercom.OMDbClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,12 +30,14 @@ public class UserService {
 
     private final UserRepository userRepo;
     private final MovieService movieService;
+    private final OMDbClient omdb;
 
     @Autowired
-    public UserService(UserRepository repo, MovieService movieService) {
+    public UserService(UserRepository repo, MovieService movieService, OMDbClient omdb) {
         super();
         this.userRepo = repo;
         this.movieService = movieService;
+        this.omdb = omdb;
     }
 
     private void mapUserFromDTO(final User user, final UserDTO userdto) {
@@ -125,8 +135,9 @@ public class UserService {
     }
 
     //TODO replace user search with current user.
-    public void addFavorite(final MoviesDTO moveisdto) {
-        final Movie movie = movieService.getMovieByName(moveisdto.getName());
+    public void addFavorite(final MoviesDTO moviesDTO) {
+        movieService.saveNewMovie(moviesDTO);
+        final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         final User user = getUserById(1);
         user.addMovieToFavorites(movie);
         System.out.println("user id " + user.getId());
@@ -141,5 +152,59 @@ public class UserService {
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         user.removeMovieFromFavorites(movie);
         userRepo.save(user);
+    }
+
+    //TODO replace user search with active user
+    //Function used to sort by Ascending/Descending review ratings
+    public List<Review> getUserReviewsRatingOrder(boolean ascending) {
+        final User user = getUserById(1);
+        List<Review> reviews = user.getUserReviews();
+
+        Comparator<Review> compareByRating = (ascending) ?
+                (Review r1, Review r2) -> Double.compare(r1.getRating(),r2.getRating()) :
+                (Review r1, Review r2) -> Double.compare(r2.getRating(),r1.getRating());
+
+
+        Collections.sort(reviews,compareByRating);
+
+        return reviews;
+    }
+
+    //TODO replace user search with active user
+    //Function used to sort by Ascending/Descending timestamp ratings
+    public List<Review> getUserReviewsTimeOrder(boolean ascending) {
+        final User user = getUserById(1);
+        List<Review> reviews = user.getUserReviews();
+
+        Comparator<Review> compareByTime = (ascending) ?
+                (Review r1, Review r2) -> (r1.getReviewTime().compareTo(r2.getReviewTime())) :
+                (Review r1, Review r2) -> (r2.getReviewTime().compareTo(r1.getReviewTime()));
+
+        Collections.sort(reviews,compareByTime);
+
+        return reviews;
+    }
+
+    public void addReview(ReviewsDTO reviewsDTO) {
+        final Movie movie = movieService.getMovieById(reviewsDTO.getReviews().get(0).getId());
+        final User user = getUserById(1);
+
+        System.out.println("user id " + user.getId());
+        System.out.println("movie id " + movie.getId());
+        userRepo.save(user);
+    }
+
+    public List<Movie> getUserFavoritesByName(boolean ascending) {
+        final User user = getUserById(1);
+        List<Movie> movies = user.getUserFavorites();
+
+        Comparator<Movie> compareByName = (ascending) ?
+                (Movie m1, Movie m2) -> m1.getName().compareTo(m2.getName()) :
+                (Movie m1, Movie m2) -> m2.getName().compareTo(m1.getName());
+
+
+        Collections.sort(movies,compareByName);
+
+        return movies;
     }
 }

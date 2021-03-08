@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.dtos.MoviesDTO;
 import com.revature.entities.Movie;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
@@ -29,6 +30,15 @@ public class MovieService {
     }
 
     public boolean saveNewMovie(Movie m){
+        Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
+        if(movie.isPresent()){
+            return false;
+        }
+        movieRepo.save(omdb.getMovieInformation(m.getName()));
+        return true;
+    }
+
+    public boolean saveNewMovie(MoviesDTO m){
         Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
         if(movie.isPresent()){
             return false;
