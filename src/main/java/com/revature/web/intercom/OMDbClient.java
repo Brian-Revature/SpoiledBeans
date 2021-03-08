@@ -32,13 +32,9 @@ public class OMDbClient {
             }
             movieUrl += movieNames[i] + "+";
         }
-
-        System.out.println(movieUrl);
-
         return parseOMDbBody(restClient.exchange(movieUrl, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody());
     }
 
-    //TODO parse genre and synopsis
     private Movie parseOMDbBody(String body){
         body = body.replace("Title", "title");
         body = body.replace("Year", "year");
@@ -54,9 +50,13 @@ public class OMDbClient {
             e.printStackTrace();
         }
 
+        String[] genres = o.getGenre().split(",");
+
         m.setName(o.getTitle());
         m.setDirector(o.getDirector());
         m.setYear(o.getYear());
+        m.setGenre(genres[0]);
+        m.setSynopsis(o.getPlot());
 
 
         return m;
