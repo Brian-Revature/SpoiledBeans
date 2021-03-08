@@ -4,11 +4,14 @@ import com.revature.dtos.FavoritesDTO;
 import com.revature.dtos.MoviesDTO;
 import com.revature.dtos.ReviewsDTO;
 import com.revature.dtos.UserDTO;
+import com.revature.entities.Review;
 import com.revature.entities.User;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -72,5 +75,19 @@ public class UserController {
     public ReviewsDTO getUserReviews(@RequestBody UserDTO userdto) {
         return userService.getUserReviews(userdto.getUsername());
     }
+
+    @GetMapping(path= "/myreviewsbyrating",produces= MediaType.APPLICATION_JSON_VALUE)
+    public List<Review> getUserReviewsByRating(@RequestParam boolean ascending) {
+        //Not clear how we are getting the user id or user data at this point
+        return userService.getUserReviewsRatingOrder(ascending);
+    }
+
+    @GetMapping(path= "/myreviewsbytime",produces= MediaType.APPLICATION_JSON_VALUE)
+    public List<Review> getUserReviewsByTime(@RequestParam boolean ascending) {
+        //Not clear how we are getting the user id or user data at this point
+        return userService.getUserReviewsTimeOrder(ascending);
+    }
+
+
 
 }

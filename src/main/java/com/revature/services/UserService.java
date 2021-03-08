@@ -5,6 +5,7 @@ import com.revature.dtos.MoviesDTO;
 import com.revature.dtos.ReviewsDTO;
 import com.revature.dtos.UserDTO;
 import com.revature.entities.Movie;
+import com.revature.entities.Review;
 import com.revature.entities.User;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
@@ -13,6 +14,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -141,5 +147,36 @@ public class UserService {
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         user.removeMovieFromFavorites(movie);
         userRepo.save(user);
+    }
+
+    //TODO replace user search with active user
+    //Function used to sort by Ascending/Descending review ratings
+    public List<Review> getUserReviewsRatingOrder(boolean ascending) {
+        final User user = getUserById(1);
+        List<Review> reviews = user.getUserReviews();
+
+        Comparator<Review> compareByRating = (ascending) ?
+                (Review r1, Review r2) -> Double.compare(r1.getRating(),r2.getRating()) :
+                (Review r1, Review r2) -> Double.compare(r2.getRating(),r1.getRating());
+
+
+        Collections.sort(reviews,compareByRating);
+
+        return reviews;
+    }
+
+    //TODO replace user search with active user
+    //Function used to sort by Ascending/Descending timestamp ratings
+    public List<Review> getUserReviewsTimeOrder(boolean ascending) {
+        final User user = getUserById(1);
+        List<Review> reviews = user.getUserReviews();
+
+        Comparator<Review> compareByTime = (ascending) ?
+                (Review r1, Review r2) -> (r1.getReviewTime().compareTo(r2.getReviewTime())) :
+                (Review r1, Review r2) -> (r2.getReviewTime().compareTo(r1.getReviewTime()));
+
+        Collections.sort(reviews,compareByTime);
+
+        return reviews;
     }
 }
