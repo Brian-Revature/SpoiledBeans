@@ -179,4 +179,27 @@ public class UserService {
 
         return reviews;
     }
+
+//    public void addReview(ReviewsDTO reviewsDTO) {
+//        final Movie movie = movieService.getMovieByName();
+//        final User user = getUserById(1);
+//
+//        System.out.println("user id " + user.getId());
+//        System.out.println("movie id " + movie.getId());
+//        userRepo.save(user);
+//    }
+
+    public List<Movie> getUserFavoritesByName(boolean ascending) {
+        final User user = getUserById(1);
+        List<Movie> movies = user.getUserFavorites();
+
+        Comparator<Movie> compareByName = (ascending) ?
+                (Movie m1, Movie m2) -> m1.getName().compareTo(m2.getName()) :
+                (Movie m1, Movie m2) -> m2.getName().compareTo(m1.getName());
+
+
+        Collections.sort(movies,compareByName);
+
+        return movies;
+    }
 }

@@ -4,6 +4,7 @@ import com.revature.dtos.FavoritesDTO;
 import com.revature.dtos.MoviesDTO;
 import com.revature.dtos.ReviewsDTO;
 import com.revature.dtos.UserDTO;
+import com.revature.entities.Movie;
 import com.revature.entities.Review;
 import com.revature.entities.User;
 import com.revature.services.UserService;
@@ -64,6 +65,12 @@ public class UserController {
         userService.deleteUserFavorite(moviesDTO);
     }
 
+    @GetMapping(path= "/favoritesbyname",produces= MediaType.APPLICATION_JSON_VALUE)
+    public List<Movie> getUserFavoritesByName(@RequestParam boolean ascending) {
+        //Not clear how we are getting the user id or user data at this point
+        return userService.getUserFavoritesByName(ascending);
+    }
+
 //--------------------------- Reviews ---------------------------------------------
     @GetMapping(path= "/myreviews",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviews(@RequestParam int id) {
@@ -86,6 +93,11 @@ public class UserController {
     public List<Review> getUserReviewsByTime(@RequestParam boolean ascending) {
         //Not clear how we are getting the user id or user data at this point
         return userService.getUserReviewsTimeOrder(ascending);
+    }
+
+    @PostMapping(path= "/addreview",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void addReview(@RequestBody final ReviewsDTO reviewsDTO){
+        userService.addReview(reviewsDTO);
     }
 
 
