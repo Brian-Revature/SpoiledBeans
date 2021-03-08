@@ -32,13 +32,10 @@ public class OMDbClient {
             }
             movieUrl += movieNames[i] + "+";
         }
-
-        System.out.println(movieUrl);
-
         return parseOMDbBody(restClient.exchange(movieUrl, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody());
     }
 
-    //TODO parse genre and synopsis
+    //TODO synopsis only grabs the first 20 characters, will need to change the DB side of things for longer plot
     private Movie parseOMDbBody(String body){
         body = body.replace("Title", "title");
         body = body.replace("Year", "year");
@@ -54,9 +51,14 @@ public class OMDbClient {
             e.printStackTrace();
         }
 
+        String[] genres = o.getGenre().split(",");
+        String synopsis = o.getPlot().substring(0,20);
+
         m.setName(o.getTitle());
         m.setDirector(o.getDirector());
         m.setYear(o.getYear());
+        m.setGenre(genres[0]);
+        m.setSynopsis(synopsis);
 
 
         return m;
