@@ -89,7 +89,5 @@ public class MovieController {
         }else{
             System.out.println("movie already in DB");
         }
-
-
     }
 }
