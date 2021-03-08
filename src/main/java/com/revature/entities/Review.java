@@ -1,10 +1,18 @@
 package com.revature.entities;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity @Table(name = "review")
+@Entity @DynamicInsert
+@Table(name = "review")
 public class Review {
 
     @Id @Column
@@ -17,8 +25,10 @@ public class Review {
     @Column
     private String review;
 
+//    @Generated(value = GenerationTime.ALWAYS)
+//    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "review_time", nullable = false)
-    private LocalDateTime reviewTime;
+    private Timestamp reviewTime;
 
     public Review(){
         super();
@@ -53,11 +63,11 @@ public class Review {
         this.review = review;
     }
 
-    public LocalDateTime getReviewTime() {
+    public Timestamp getReviewTime() {
         return reviewTime;
     }
 
-    public void setReviewTime(LocalDateTime reviewTime) {
+    public void setReviewTime(Timestamp reviewTime) {
         this.reviewTime = reviewTime;
     }
 

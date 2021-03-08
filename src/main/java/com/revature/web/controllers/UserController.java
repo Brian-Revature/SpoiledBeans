@@ -1,9 +1,6 @@
 package com.revature.web.controllers;
 
-import com.revature.dtos.FavoritesDTO;
-import com.revature.dtos.MoviesDTO;
-import com.revature.dtos.ReviewsDTO;
-import com.revature.dtos.UserDTO;
+import com.revature.dtos.*;
 import com.revature.entities.Movie;
 import com.revature.entities.Review;
 import com.revature.entities.User;
@@ -12,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -96,8 +95,9 @@ public class UserController {
     }
 
     @PostMapping(path= "/addreview",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addReview(@RequestBody final ReviewsDTO reviewsDTO){
-        userService.addReview(reviewsDTO);
+    public void addReview(@RequestBody final MovieReviewDTO movieReviewDTO){
+        movieReviewDTO.getReview().setReviewTime(new Timestamp(System.currentTimeMillis()));
+        userService.addReview(movieReviewDTO);
     }
 
 

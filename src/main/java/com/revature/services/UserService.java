@@ -1,9 +1,6 @@
 package com.revature.services;
 
-import com.revature.dtos.FavoritesDTO;
-import com.revature.dtos.MoviesDTO;
-import com.revature.dtos.ReviewsDTO;
-import com.revature.dtos.UserDTO;
+import com.revature.dtos.*;
 import com.revature.entities.Movie;
 import com.revature.entities.Review;
 import com.revature.entities.User;
@@ -185,15 +182,15 @@ public class UserService {
         return reviews;
     }
 
-    public void addReview(ReviewsDTO reviewsDTO) {
-        final Movie movie = movieService.getMovieById(reviewsDTO.getReviews().get(0).getId());
+    //TODO replace user search with active user
+    public void addReview(MovieReviewDTO movieReviewDTO) {
+        movieService.saveNewMovie(movieReviewDTO.getMovie());
         final User user = getUserById(1);
-
-        System.out.println("user id " + user.getId());
-        System.out.println("movie id " + movie.getId());
+        user.addReview(movieReviewDTO.getReview());
         userRepo.save(user);
     }
 
+    //TODO replace user search with active user
     public List<Movie> getUserFavoritesByName(boolean ascending) {
         final User user = getUserById(1);
         List<Movie> movies = user.getUserFavorites();

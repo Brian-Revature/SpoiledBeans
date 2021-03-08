@@ -156,6 +156,15 @@ public class User {
         userFavorites.remove(movie);
     }
 
+    public void addReview(final Review review){
+        if (userReviews == null) {
+            userReviews = new ArrayList<>();
+        }
+        userReviews.add(review);
+    }
+
+    public void removeReview(final Review review) { userReviews.remove(review); }
+
 
 @Override
 public boolean equals(Object o) {
