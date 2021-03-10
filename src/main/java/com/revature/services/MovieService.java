@@ -1,7 +1,10 @@
 package com.revature.services;
 
+import com.revature.dtos.MovieReviewDTO;
 import com.revature.dtos.MoviesDTO;
+import com.revature.dtos.ReviewsDTO;
 import com.revature.entities.Movie;
+import com.revature.entities.User;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.MovieRepository;
@@ -72,5 +75,13 @@ public class MovieService {
 
     public List<Movie> getMoviesByDirector(String director){
         return movieRepo.findMoviesByDirector(director);
+    }
+
+    public ReviewsDTO getReviewDTO(Movie movie){
+        ReviewsDTO revs = new ReviewsDTO();
+        revs.setMovie(movie.getName());
+        revs.setReviews(movie.getAllReviews());
+
+        return revs;
     }
 }
