@@ -3,6 +3,7 @@ package com.revature.services;
 import com.revature.dtos.*;
 import com.revature.entities.Movie;
 import com.revature.entities.User;
+import com.revature.entities.UserRole;
 import com.revature.exceptions.AuthenticationException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
@@ -48,6 +49,9 @@ public class UserService {
         }
         if(userdto.getBio() != null && !userdto.getBio().trim().equals("")) {
             user.setBio(userdto.getBio());
+        }
+        if(userdto.getUserRole() != null && !userdto.getUserRole().trim().equals("")) {
+            user.setUserRole(UserRole.valueOf(userdto.getUserRole()));
         }
     }
 
