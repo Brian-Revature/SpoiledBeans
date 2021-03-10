@@ -13,6 +13,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String bio;
+    private String userRole;
 
 
     public UserDTO() {
@@ -67,6 +68,26 @@ public class UserDTO {
         this.bio = bio;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return Objects.equals(username, userDTO.username) && Objects.equals(password, userDTO.password) && Objects.equals(email, userDTO.email) && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(bio, userDTO.bio) && Objects.equals(userRole, userDTO.userRole);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, email, firstName, lastName, bio, userRole);
+    }
 
     @Override
     public String toString() {
@@ -77,19 +98,7 @@ public class UserDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", bio='" + bio + '\'' +
+                ", userRole='" + userRole + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(username, userDTO.username) && Objects.equals(password, userDTO.password) && Objects.equals(email, userDTO.email) && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(bio, userDTO.bio);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, password, email, firstName, lastName, bio);
     }
 }
