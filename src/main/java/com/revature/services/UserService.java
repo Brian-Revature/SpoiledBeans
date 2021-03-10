@@ -1,11 +1,9 @@
 package com.revature.services;
 
-import com.revature.dtos.FavoritesDTO;
-import com.revature.dtos.MoviesDTO;
-import com.revature.dtos.ReviewsDTO;
-import com.revature.dtos.UserDTO;
+import com.revature.dtos.*;
 import com.revature.entities.Movie;
 import com.revature.entities.User;
+import com.revature.exceptions.AuthenticationException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.UserRepository;
@@ -20,14 +18,16 @@ public class UserService {
 
     private static final Logger LOG = LogManager.getLogger(UserService.class);
 
+    private final AuthService authService;
     private final UserRepository userRepo;
     private final MovieService movieService;
 
     @Autowired
-    public UserService(UserRepository repo, MovieService movieService) {
+    public UserService(UserRepository repo, MovieService movieService, AuthService authService) {
         super();
         this.userRepo = repo;
         this.movieService = movieService;
+        this.authService = authService;
     }
 
     private void mapUserFromDTO(final User user, final UserDTO userdto) {
@@ -141,5 +141,14 @@ public class UserService {
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         user.removeMovieFromFavorites(movie);
         userRepo.save(user);
+    }
+
+    public PrincipalDTO authenticate(String username, String password) {
+
+        User authUser = userRepo.findUserByUsernameAndPassword(username, password).orElseThrow(AuthenticationException::new);
+        PrincipalDTO principal = new PrincipalDTO(authUser);
+        String token = authService.generateToken(principal);
+        principal.setToken(token);
+        return principal;
     }
 }
