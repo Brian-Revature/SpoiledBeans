@@ -1,15 +1,41 @@
 package com.revature.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
+@Entity @Table(name = "movies")
 public class Movie {
 
+    @Id @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private String name;
+
+    @Column
     private String director;
+
+    @Column
     private String genre;
+
+    @Column
     private String synopsis;
+
+    @Column(name = "release_date", nullable = false)
     private int year;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "movie_review",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id")
+    )
+    private List<Review> allReviews;
 
     public Movie(){
         super();

@@ -25,8 +25,6 @@ create table user_roles(
 	primary key (id)
 );
 
-
-
 CREATE TABLE users (
 
 	id			serial,
@@ -66,7 +64,7 @@ CREATE TABLE movies (
 	name		varchar(180),
 	director	varchar(51),
 	genre		varchar(25),
-	synopsis	varchar(25),
+	synopsis	text,
 	release_date	int not null,
 	
 	CONSTRAINT movie_id
@@ -135,30 +133,15 @@ CREATE TABLE favorites (
 
 );
 
---INSERT INTO user_roles (name) 
---		values('Premium User');
-
---INSERT INTO users(username,"password",email,firstname,lastname,bio,user_role)
---		values('testingUser', 'bad password', 'dummy@dumdum.com','test','user','test value to test out connection',1);
-
-
---insert into movies("name",release_date)
---	values('testMovie1',2000);
---
---insert into movies("name",release_date)
---	values('testMovie2',2001);
---
---insert into movies("name",release_date)
---	values('testMovie3',2002);
---
---insert into movies("name",release_date)
---	values('dummyMovie',2003);
+--insert into movies ("name",release_date)
+--	values('dummyMovieTheSequel',2003);
+--insert into movies ("name",director,genre,synopsis,release_date)
+--	values('dummy the Third', 'Kalyb Levesque', 'comedy', 'a funny conclusion ', 2005);
 
 
---select * from user_roles;
---	select * from users;
 --select * from movies;
-
+--select * from users;
+select * from review;
 -- these drops should be in order to delete everything for recreation
 
 --drop table user_reviews;
