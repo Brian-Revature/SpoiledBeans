@@ -4,14 +4,9 @@ package com.revature.util;
 import com.revature.dtos.PrincipalDTO;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-import java.security.Key;
 import java.util.Date;
 
 @Component
@@ -28,10 +23,14 @@ public class JwtGenerator {
 
         long now = System.currentTimeMillis();
 
+        System.out.println("User ID: " + subject.getId());
+        System.out.println("User Username: " + subject.getUsername());
+        System.out.println("User Role: " + subject.getUserRole());
+
         JwtBuilder builder = Jwts.builder()
                 .setId(String.valueOf(subject.getId()))
                 .setSubject(subject.getUsername())
-                .claim("role", subject.getRole())
+                .claim("role", subject.getUserRole())
                 .setIssuer("revature")
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + (60 * 60 * 1000)))

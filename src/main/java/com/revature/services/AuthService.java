@@ -34,7 +34,7 @@ public class AuthService {
             throw new RuntimeException("Principal within token was null!");
         }
 
-        return principal.getRole();
+        return principal.getUserRole();
 
     }
 

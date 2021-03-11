@@ -2,6 +2,7 @@ package com.revature.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.entities.User;
+import com.revature.entities.UserRole;
 
 import java.util.Objects;
 
@@ -9,7 +10,7 @@ public class PrincipalDTO {
 
     private int id;
     private String username;
-    private String role;
+    private String userRole;
 
     @JsonIgnore
     private String token;
@@ -18,14 +19,14 @@ public class PrincipalDTO {
 
         this.id = user.getId();
         this.username = user.getUsername();
-        this.role = getRole();
+        this.userRole = UserRole.valueOf(user.getUserRole());
     }
 
-    public PrincipalDTO(int id, String username, String role){
+    public PrincipalDTO(int id, String username, String userRole){
 
         this.id = id;
         this.username = username;
-        this.role = role;
+        this.userRole = userRole;
 
     }
 
@@ -34,12 +35,12 @@ public class PrincipalDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PrincipalDTO that = (PrincipalDTO) o;
-        return id == that.id && username.equals(that.username) && role.equals(that.role) && token.equals(that.token);
+        return id == that.id && username.equals(that.username) && userRole.equals(that.userRole) && token.equals(that.token);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, role, token);
+        return Objects.hash(id, username, userRole, token);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class PrincipalDTO {
         return "PrincipalDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", role='" + role + '\'' +
+                ", role='" + userRole + '\'' +
                 ", token='" + token + '\'' +
                 '}';
     }
@@ -68,12 +69,12 @@ public class PrincipalDTO {
         this.username = username;
     }
 
-    public String getRole() {
-        return role;
+    public String getUserRole() {
+        return userRole;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public String getToken() {

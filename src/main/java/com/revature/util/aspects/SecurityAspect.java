@@ -52,6 +52,8 @@ public class SecurityAspect {
 
         String authority = authService.getAuthorities(token);
 
+        System.out.println(authority);
+
         if(!allowedRoles.contains(authority)){
             throw new AuthorizationException();
         }
