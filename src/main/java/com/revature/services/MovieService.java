@@ -1,12 +1,17 @@
 package com.revature.services;
 
+import com.revature.dtos.MovieReviewDTO;
+import com.revature.dtos.MoviesDTO;
+import com.revature.dtos.ReviewsDTO;
 import com.revature.entities.Movie;
+import com.revature.entities.User;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.MovieRepository;
 import com.revature.web.intercom.OMDbClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +34,15 @@ public class MovieService {
     }
 
     public boolean saveNewMovie(Movie m){
+        Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
+        if(movie.isPresent()){
+            return false;
+        }
+        movieRepo.save(omdb.getMovieInformation(m.getName()));
+        return true;
+    }
+
+    public boolean saveNewMovie(MoviesDTO m){
         Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
         if(movie.isPresent()){
             return false;
@@ -62,5 +76,13 @@ public class MovieService {
 
     public List<Movie> getMoviesByDirector(String director){
         return movieRepo.findMoviesByDirector(director);
+    }
+
+    public ReviewsDTO getReviewDTO(Movie movie){
+        ReviewsDTO revs = new ReviewsDTO();
+        revs.setMovie(movie.getName());
+        revs.setReviews(movie.getAllReviews());
+
+        return revs;
     }
 }

@@ -8,6 +8,7 @@ import java.util.Objects;
 public class ReviewsDTO {
 
     private String username;
+    private String movie;
     private List<Review> reviews;
 
     public ReviewsDTO() {
@@ -21,8 +22,20 @@ public class ReviewsDTO {
         this.username = username;
     }
 
+    public String getMovie() {
+        return movie;
+    }
+
+    public void setMovie(String movie) {
+        this.movie = movie;
+    }
+
     public List<Review> getReviews() {
         return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
@@ -30,23 +43,20 @@ public class ReviewsDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReviewsDTO that = (ReviewsDTO) o;
-        return username.equals(that.username) && Objects.equals(reviews, that.reviews);
+        return Objects.equals(username, that.username) && Objects.equals(movie, that.movie) && Objects.equals(reviews, that.reviews);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, movie, reviews);
     }
 
     @Override
     public String toString() {
         return "ReviewsDTO{" +
                 "username='" + username + '\'' +
+                ", movie='" + movie + '\'' +
                 ", reviews=" + reviews +
                 '}';
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, reviews);
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
     }
 }

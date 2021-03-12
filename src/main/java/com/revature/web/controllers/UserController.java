@@ -1,14 +1,17 @@
 package com.revature.web.controllers;
 
-import com.revature.dtos.FavoritesDTO;
-import com.revature.dtos.MoviesDTO;
-import com.revature.dtos.ReviewsDTO;
-import com.revature.dtos.UserDTO;
+import com.revature.dtos.*;
+import com.revature.entities.Movie;
+import com.revature.entities.Review;
 import com.revature.entities.User;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -61,16 +64,10 @@ public class UserController {
         userService.deleteUserFavorite(moviesDTO);
     }
 
-//--------------------------- Reviews ---------------------------------------------
-    @GetMapping(path= "/myreviews",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviews(@RequestParam int id) {
+    @GetMapping(path= "/favoritesbyname",produces= MediaType.APPLICATION_JSON_VALUE)
+    public List<Movie> getUserFavoritesByName(@RequestParam boolean ascending) {
         //Not clear how we are getting the user id or user data at this point
-        return userService.getUserReviews(id);
-    }
-
-    @GetMapping(path= "/userreviews",produces= MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviews(@RequestBody UserDTO userdto) {
-        return userService.getUserReviews(userdto.getUsername());
+        return userService.getUserFavoritesByName(ascending);
     }
 
 }

@@ -152,13 +152,27 @@ public class User {
         this.userReviews = userReviews;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(bio, user.bio) && userRole == user.userRole;
+    public void removeMovieFromFavorites(final Movie movie) {
+        userFavorites.remove(movie);
     }
+
+    public void addReview(final Review review){
+        if (userReviews == null) {
+            userReviews = new ArrayList<>();
+        }
+        userReviews.add(review);
+    }
+
+    public void removeReview(final Review review) { userReviews.remove(review); }
+
+
+@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(bio, user.bio) && userRole == user.userRole;
+}
 
     @Override
     public int hashCode() {
@@ -177,9 +191,5 @@ public class User {
                 ", bio='" + bio + '\'' +
                 ", userRole=" + userRole +
                 '}';
-    }
-
-    public void removeMovieFromFavorites(final Movie movie) {
-        userFavorites.remove(movie);
     }
 }
