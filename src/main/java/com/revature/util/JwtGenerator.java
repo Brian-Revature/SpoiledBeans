@@ -9,23 +9,31 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * This class will generate a JWT for when a user logs in
+ */
 @Component
 public class JwtGenerator {
 
     private JwtConfig config;
 
+    /**
+     * Takes in a JWTConfig that configures a JWT
+     * @param config the configuration object to configure JWTs for this application
+     */
     @Autowired
     public JwtGenerator(JwtConfig config) {
         this.config = config;
     }
 
+    /**
+     * Creates a JWT from user information
+     * @param subject the principal dto of user information
+     * @return a string representation of the token
+     */
     public String createToken(PrincipalDTO subject) {
 
         long now = System.currentTimeMillis();
-
-        System.out.println("User ID: " + subject.getId());
-        System.out.println("User Username: " + subject.getUsername());
-        System.out.println("User Role: " + subject.getUserRole());
 
         JwtBuilder builder = Jwts.builder()
                 .setId(String.valueOf(subject.getId()))
@@ -37,6 +45,5 @@ public class JwtGenerator {
                 .signWith(config.getSignatureAlgorithm(), config.getSigningKey());
 
         return builder.compact();
-
     }
 }

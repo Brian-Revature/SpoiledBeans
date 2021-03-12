@@ -18,6 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * This aspect secures endpoints within our controllers with a specific annotation
+ */
 @Aspect
 @Component
 public class SecurityAspect {
@@ -25,12 +28,23 @@ public class SecurityAspect {
     private HttpServletRequest request;
     private AuthService authService;
 
+    /**
+     * Constructor that SpringBoot handles with auto wiring
+     * @param request the httpServletRequest from the user
+     * @param authService the auth service
+     */
     @Autowired
     public SecurityAspect(HttpServletRequest request, AuthService authService){
         this.request = request;
         this.authService = authService;
     }
 
+    /**
+     * Advice that is injected on any method with the secure annotation
+     * @param pjp the proceeding join point, which is the annotated method
+     * @return the annotated method
+     * @throws Throwable an error
+     */
     @Around("@annotation(com.revature.web.annotations.Secured)")
     public Object secureEndpoint(ProceedingJoinPoint pjp) throws Throwable {
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
