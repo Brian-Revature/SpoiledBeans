@@ -45,6 +45,7 @@ public class UserService {
     public void registerNewUser(final UserDTO userdto) {
         final User user = new User();
         mapUserFromDTO(user,userdto);
+        user.setUserRole(UserRole.BASIC_USER);
         userRepo.save(user);
     }
 
