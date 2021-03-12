@@ -47,13 +47,12 @@ public class UserController {
 
     /**
      * Returns the user that matches the supplied username
-     * @param username
+     * @param userdto
      * @return
      */
-    //TODO Change the parameter to a @requestBody and pass it a UserDTO
     @GetMapping(path = "/getuserbyusername", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserByUsername(@RequestParam String username) {
-        return userService.getUserByUsername(username);
+    public User getUserByUsername(@RequestBody UserDTO userdto) {
+        return userService.getUserByUsername(userdto.getUsername());
     }
 
     /**
