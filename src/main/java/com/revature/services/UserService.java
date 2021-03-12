@@ -93,8 +93,6 @@ public class UserService {
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         final User user = getUserById(1);
         user.addMovieToFavorites(movie);
-        System.out.println("user id " + user.getId());
-        System.out.println("movie id " + movie.getId());
         userRepo.save(user);
     }
 
@@ -139,6 +137,5 @@ public class UserService {
             user.setBio(userdto.getBio());
         }
     }
-
 
 }

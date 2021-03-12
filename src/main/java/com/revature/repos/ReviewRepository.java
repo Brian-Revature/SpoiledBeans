@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface ReviewRepo extends CrudRepository<Review, Integer> {
+public interface ReviewRepository extends CrudRepository<Review, Integer> {
 
     Optional<Review> findReviewById(int id);
 
