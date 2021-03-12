@@ -62,12 +62,10 @@ public class UserService {
         return userRepo.findUserByUsername(username).orElseThrow(ResourceNotFoundException::new);
     }
 
-    //TODO: verify everything is in order when JWT established
     public void save(User u) {
         userRepo.save(u);
     }
 
-    //TODO: replace user search with current user
     public void updateUser(final UserDTO userdto, final int user_id) {
         final User user = getUserById(user_id);
         mapUserFromDTO(user,userdto);
@@ -91,18 +89,16 @@ public class UserService {
         return getFavoritesDTO(getUserByUsername(username));
     }
 
-    //TODO replace user search with current user.
-    public void addFavorite(final MoviesDTO moviesDTO) {
+    public void addFavorite(final MoviesDTO moviesDTO, int id) {
         movieService.saveNewMovie(moviesDTO);
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
-        final User user = getUserById(1);
+        final User user = getUserById(id);
         user.addMovieToFavorites(movie);
         userRepo.save(user);
     }
 
-    //TODO replace user search with current user.
-    public void deleteUserFavorite(final MoviesDTO moviesDTO) {
-        final User user = getUserById(1);
+    public void deleteUserFavorite(final MoviesDTO moviesDTO, int id) {
+        final User user = getUserById(id);
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         user.removeMovieFromFavorites(movie);
         userRepo.save(user);
@@ -116,9 +112,9 @@ public class UserService {
         principal.setToken(token);
         return principal;
     }
-    //TODO replace user search with active user
-    public List<Movie> getUserFavoritesByName(boolean ascending) {
-        final User user = getUserById(1);
+
+    public List<Movie> getUserFavoritesByName(boolean ascending, int id) {
+        final User user = getUserById(id);
         List<Movie> movies = user.getUserFavorites();
         Comparator<Movie> compareByName = (ascending) ?
                 (Movie m1, Movie m2) -> m1.getName().compareTo(m2.getName()) :

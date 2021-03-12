@@ -28,27 +28,19 @@ public class AuthService {
     }
 
     public String getAuthorities(String token) {
-        PrincipalDTO principal = tokenValidator.parseToken(token);
-
-        if (principal == null) {
-            throw new RuntimeException("Principal within token was null!");
-        }
-
-        return principal.getUserRole();
+        return getPrincipal(token).getUserRole();
 
     }
 
     public int getUserId(String token){
-        PrincipalDTO principal = tokenValidator.parseToken(token);
-
-        if (principal == null) {
-            throw new RuntimeException("Principal within token was null!");
-        }
-
-        return principal.getId();
+        return getPrincipal(token).getId();
     }
 
-    public PrincipalDTO getPrincipal(String token){
+    public String getUsername(String token){
+        return getPrincipal(token).getUsername();
+    }
+
+    private PrincipalDTO getPrincipal(String token){
         PrincipalDTO principal = tokenValidator.parseToken(token);
 
         if (principal == null) {
