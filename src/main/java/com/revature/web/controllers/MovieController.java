@@ -55,7 +55,6 @@ public class MovieController {
 
     //---------------------------------------------------------------------------
 
-    //TODO verify the user updating the movie is an Admin
     @Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/director", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public void setDirector(@RequestBody Movie m){
@@ -64,7 +63,7 @@ public class MovieController {
         movieService.save(movie);
     }
 
-    //TODO verify the user updating the movie is an Admin
+    @Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/genre", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public void setGenre(@RequestBody Movie m){
         Movie movie = movieService.getMovieByName(m.getName());
@@ -72,7 +71,7 @@ public class MovieController {
         movieService.save(movie);
     }
 
-    //TODO verify the user updating the movie is an Admin
+    @Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/synopsis", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public void setSynopsis(@RequestBody Movie m){
         Movie movie = movieService.getMovieByName(m.getName());
@@ -83,7 +82,7 @@ public class MovieController {
     //---------------------------------------------------------------------------
 
     //When querying the OMDb database, if a year is not specified, the most recent movie will be returned
-
+    @Secured(allowedRoles = {"Admin"})
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public void addMovieByName(@RequestBody Movie m){
         if(movieService.saveNewMovie(m)){
