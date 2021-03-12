@@ -70,36 +70,4 @@ public class UserController {
         return userService.getUserFavoritesByName(ascending);
     }
 
-//--------------------------- Reviews ---------------------------------------------
-    @GetMapping(path= "/myreviews",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviews(@RequestParam int id) {
-        //Not clear how we are getting the user id or user data at this point
-        return userService.getUserReviews(id);
-    }
-
-    @GetMapping(path= "/userreviews",produces= MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviews(@RequestBody UserDTO userdto) {
-        return userService.getUserReviews(userdto.getUsername());
-    }
-
-    @GetMapping(path= "/myreviewsbyrating",produces= MediaType.APPLICATION_JSON_VALUE)
-    public List<Review> getUserReviewsByRating(@RequestParam boolean ascending) {
-        //Not clear how we are getting the user id or user data at this point
-        return userService.getUserReviewsRatingOrder(ascending);
-    }
-
-    @GetMapping(path= "/myreviewsbytime",produces= MediaType.APPLICATION_JSON_VALUE)
-    public List<Review> getUserReviewsByTime(@RequestParam boolean ascending) {
-        //Not clear how we are getting the user id or user data at this point
-        return userService.getUserReviewsTimeOrder(ascending);
-    }
-
-    @PostMapping(path= "/addreview",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addReview(@RequestBody final MovieReviewDTO movieReviewDTO){
-        movieReviewDTO.getReview().setReviewTime(new Timestamp(System.currentTimeMillis()));
-        userService.addReview(movieReviewDTO);
-    }
-
-
-
 }

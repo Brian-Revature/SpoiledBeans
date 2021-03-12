@@ -1,5 +1,6 @@
 package com.revature.repos;
 
+import com.revature.entities.Review;
 import com.revature.entities.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,10 @@ public interface UserRepository extends CrudRepository<User, Integer>{
     Set<User> findUsersByUserRole(String role);
     Optional<User> findUserByUsernameAndPassword(String username, String password);
 
+//    @Query(value = "select * from reviews " +
+//            "join movie_review on reviewId " +
+//            "join user_review on reviewId " +
+//            "where userId = :userId " +
+//            "and movieId = :movieId")
+//    Optional<Review> findExistingReview(int userId, int movieId);
 }

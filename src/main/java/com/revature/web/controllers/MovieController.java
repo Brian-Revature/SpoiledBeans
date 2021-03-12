@@ -2,6 +2,7 @@ package com.revature.web.controllers;
 
 import com.revature.entities.Movie;
 import com.revature.services.MovieService;
+import com.revature.web.annotations.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,7 @@ public class MovieController {
     //---------------------------------------------------------------------------
 
     //TODO verify the user updating the movie is an Admin
+    @Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/director", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public void setDirector(@RequestBody Movie m){
         Movie movie = movieService.getMovieByName(m.getName());

@@ -141,7 +141,9 @@ CREATE TABLE favorites (
 
 --select * from movies;
 --select * from users;
-select * from review;
+--select * from review;
+--select * from user_reviews;
+--select * from movie_review;
 -- these drops should be in order to delete everything for recreation
 
 --drop table user_reviews;

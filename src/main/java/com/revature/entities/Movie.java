@@ -3,6 +3,7 @@ package com.revature.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,6 +94,19 @@ public class Movie {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public void addReview(final Review review){
+        if (allReviews == null) {
+            allReviews = new ArrayList<>();
+        }
+        allReviews.add(review);
+    }
+
+    public void removeReview(final Review review) { allReviews.remove(review); }
+
+    public List<Review> getAllReviews() {
+        return allReviews;
     }
 
     @Override
