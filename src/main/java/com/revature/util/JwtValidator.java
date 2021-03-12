@@ -27,10 +27,6 @@ public class JwtValidator {
         String username = claims.getSubject();
         String role = claims.get("role", String.class);
 
-        System.out.println("User ID: " + id);
-        System.out.println("User Username: " + username);
-        System.out.println("User Role: " + role);
-
         return new PrincipalDTO(id, username, role);
 
     }

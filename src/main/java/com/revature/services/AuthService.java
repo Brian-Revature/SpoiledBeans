@@ -38,5 +38,24 @@ public class AuthService {
 
     }
 
+    public int getUserId(String token){
+        PrincipalDTO principal = tokenValidator.parseToken(token);
+
+        if (principal == null) {
+            throw new RuntimeException("Principal within token was null!");
+        }
+
+        return principal.getId();
+    }
+
+    public PrincipalDTO getPrincipal(String token){
+        PrincipalDTO principal = tokenValidator.parseToken(token);
+
+        if (principal == null) {
+            throw new RuntimeException("Principal within token was null!");
+        }
+
+        return principal;
+    }
 
 }
