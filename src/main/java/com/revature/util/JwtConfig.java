@@ -15,7 +15,7 @@ import java.security.Key;
 @Component
 public class JwtConfig {
 
-    private String secretKey = "revature";
+    private String secretKey = System.getenv("jwt_key");
     private final SignatureAlgorithm SIG_ALG = SignatureAlgorithm.HS256;
     private final Key SIGNING_KEY;
 
