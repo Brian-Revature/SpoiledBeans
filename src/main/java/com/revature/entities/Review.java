@@ -34,34 +34,32 @@ public class Review {
     private Timestamp reviewTime;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(
             name = "movie_review",
             joinColumns = @JoinColumn(name = "review_id"),
             inverseJoinColumns = @JoinColumn(name = "movie_id")
     )
-    private List<Movie> allMovieReviews;
+    private Movie movie;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_reviews",
             joinColumns = @JoinColumn(name = "review_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> allReviewers;
+    private User reviewer;
 
     public Review(){
         super();
-        allMovieReviews = new ArrayList<>();
-        allReviewers = new ArrayList<>();
     }
 
-    public Review(double rating, String review) {
+    public Review(double rating, String review, Movie movie, User reviewer) {
         this.rating = rating;
         this.review = review;
-        allMovieReviews = new ArrayList<>();
-        allReviewers = new ArrayList<>();
+        this.movie = movie;
+        this.reviewer = reviewer;
     }
 
     public int getId() {
@@ -96,30 +94,20 @@ public class Review {
         this.reviewTime = reviewTime;
     }
 
-    public void addReviewer(final User user){
-        if (allReviewers == null) {
-            allReviewers = new ArrayList<>();
-        }
-        allReviewers.add(user);
+    public Movie getMovie() {
+        return movie;
     }
 
-    public void removeMovieReview(final Movie movie) { allMovieReviews.remove(movie); }
-
-    public List<Movie> GetAllMovieReviews() {
-        return allMovieReviews;
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
-    public void addMovieReview(final Movie movie){
-        if (allMovieReviews == null) {
-            allMovieReviews = new ArrayList<>();
-        }
-        allMovieReviews.add(movie);
+    public User getReviewer() {
+        return reviewer;
     }
 
-    public void removeReviewer(final User user) { allReviewers.remove(user); }
-
-    public List<User> getAllReviewers() {
-        return allReviewers;
+    public void setReviewer(User reviewer) {
+        this.reviewer = reviewer;
     }
 
     @Override

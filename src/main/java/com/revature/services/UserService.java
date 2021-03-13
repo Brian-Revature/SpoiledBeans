@@ -72,6 +72,10 @@ public class UserService {
         userRepo.save(user);
     }
 
+    public void updateUser(final User user) {
+        userRepo.save(user);
+    }
+
     //----------------------------------------Favorites---------------------------------------
 
     private FavoritesDTO getFavoritesDTO(User user){
