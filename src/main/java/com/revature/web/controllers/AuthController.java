@@ -33,7 +33,9 @@ public class AuthController {
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public PrincipalDTO authenticateUser(@RequestBody @Valid Credentials credentials, HttpServletResponse response) {
         PrincipalDTO principal = userService.authenticate(credentials.getUsername(), credentials.getPassword());
-        response.addCookie(new Cookie("spoiledBeans-token", principal.getToken()));
+        Cookie cookie = new Cookie("spoiledBeans-token", principal.getToken());
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return principal;
     }
 
