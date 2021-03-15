@@ -8,6 +8,7 @@ import com.revature.exceptions.AuthenticationException;
 import com.revature.services.AuthService;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -92,6 +93,7 @@ public class UserController {
      * @param moviesdto
      * @param request
      */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path="/addfavorite",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addFavoriteMovie(@RequestBody final MoviesDTO moviesdto, HttpServletRequest request) {
         userService.addFavorite(moviesdto, authService.getUserId(getToken(request)));

@@ -4,6 +4,7 @@ import com.revature.entities.Movie;
 import com.revature.services.MovieService;
 import com.revature.web.annotations.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -134,7 +135,7 @@ public class MovieController {
      *  endpoint where the admin adds a movie
      * @param m a movie object passed in
      */
-
+    @ResponseStatus(HttpStatus.CREATED)
     @Secured(allowedRoles = {"Admin"})
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public void addMovieByName(@RequestBody Movie m){
