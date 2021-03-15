@@ -42,8 +42,9 @@ public class UserController {
      * @return
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserById(HttpServletRequest request) {
-        return userService.getUserById(authService.getUserId(getToken(request)));
+    public User getUserById(HttpServletRequest request, @RequestBody User user) {
+        return userService.getUserById(user.getId());
+        //return userService.getUserById(authService.getUserId(getToken(request)));
     }
 
     /**
@@ -63,7 +64,9 @@ public class UserController {
      */
     @PutMapping(path = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public void updateUser(@RequestBody UserDTO userdto, HttpServletRequest request) {
-        userService.updateUser(userdto, authService.getUserId(getToken(request)));
+        User user = userService.getUserByUsername(userdto.getUsername());
+        userService.updateUser(userdto, user.getId());
+        //userService.updateUser(userdto, authService.getUserId(getToken(request)));
     }
 
     //--------------------- Favorites -------------------------------
@@ -74,8 +77,9 @@ public class UserController {
      * @return
      */
     @GetMapping(path= "/myfavorites",produces= MediaType.APPLICATION_JSON_VALUE)
-    public FavoritesDTO getUserFavorites(HttpServletRequest request) {
-        return userService.getUserFavorites(authService.getUserId(getToken(request)));
+    public FavoritesDTO getUserFavorites(HttpServletRequest request, @RequestBody User user) {
+        return userService.getUserFavorites(user.getId());
+        //return userService.getUserFavorites(authService.getUserId(getToken(request)));
     }
 
     /**
@@ -95,8 +99,9 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path="/addfavorite",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addFavoriteMovie(@RequestBody final MoviesDTO moviesdto, HttpServletRequest request) {
-        userService.addFavorite(moviesdto, authService.getUserId(getToken(request)));
+    public void addFavoriteMovie(@RequestBody final MoviesDTO moviesdto, HttpServletRequest request, @RequestBody User user) {
+        userService.addFavorite(moviesdto, user.getId());
+        //userService.addFavorite(moviesdto, authService.getUserId(getToken(request)));
     }
 
     /**
@@ -105,8 +110,9 @@ public class UserController {
      * @param request
      */
     @DeleteMapping(path = "/deletefavorite",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteUserFavorite(@RequestBody final MoviesDTO moviesDTO, HttpServletRequest request) {
-        userService.deleteUserFavorite(moviesDTO, authService.getUserId(getToken(request)));
+    public void deleteUserFavorite(@RequestBody final MoviesDTO moviesDTO, HttpServletRequest request, @RequestBody User user) {
+        userService.deleteUserFavorite(moviesDTO, user.getId());
+        //userService.deleteUserFavorite(moviesDTO, authService.getUserId(getToken(request)));
     }
 
     /**
@@ -116,8 +122,9 @@ public class UserController {
      * @return
      */
     @GetMapping(path= "/favoritesbyname",produces= MediaType.APPLICATION_JSON_VALUE)
-    public List<Movie> getUserFavoritesByName(@RequestParam boolean ascending, HttpServletRequest request) {
-        return userService.getUserFavoritesByName(ascending, authService.getUserId(getToken(request)));
+    public List<Movie> getUserFavoritesByName(@RequestParam boolean ascending, HttpServletRequest request, @RequestBody User user) {
+        return userService.getUserFavoritesByName(ascending, user.getId());
+        //return userService.getUserFavoritesByName(ascending, authService.getUserId(getToken(request)));
     }
 
     //----------------------------------------------------------------------------

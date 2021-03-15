@@ -97,7 +97,7 @@ public class MovieController {
      *  endpoint where the director for a movie passed in is updated by the admin
      * @param m a movie object passed in
      */
-    @Secured(allowedRoles = {"Admin"})
+    //@Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/director", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public void setDirector(@RequestBody Movie m){
         Movie movie = movieService.getMovieByName(m.getName());
@@ -109,7 +109,7 @@ public class MovieController {
      *  endpoint where the genre for a movie passed in is updated by the admin
      * @param m a movie object passed in
      */
-    @Secured(allowedRoles = {"Admin"})
+    //@Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/genre", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public void setGenre(@RequestBody Movie m){
         Movie movie = movieService.getMovieByName(m.getName());
@@ -121,7 +121,7 @@ public class MovieController {
      *  endpoint where the synopsis for a movie passed in is updated by the admin
      * @param m a movie object passed in
      */
-    @Secured(allowedRoles = {"Admin"})
+    //@Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/synopsis", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public void setSynopsis(@RequestBody Movie m){
         Movie movie = movieService.getMovieByName(m.getName());
@@ -137,7 +137,7 @@ public class MovieController {
      * @param m a movie object passed in
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @Secured(allowedRoles = {"Admin"})
+    //@Secured(allowedRoles = {"Admin"})
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public void addMovieByName(@RequestBody Movie m){
         if(movieService.saveNewMovie(m)){

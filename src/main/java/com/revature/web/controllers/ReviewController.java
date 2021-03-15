@@ -5,6 +5,7 @@ import com.revature.dtos.MoviesDTO;
 import com.revature.dtos.ReviewsDTO;
 import com.revature.dtos.UserDTO;
 import com.revature.entities.Review;
+import com.revature.entities.User;
 import com.revature.exceptions.AuthenticationException;
 import com.revature.services.AuthService;
 import com.revature.services.ReviewService;
@@ -36,22 +37,25 @@ public class ReviewController {
     //--------------------------------------General---------------------------------------------
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path= "/addreview",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addReview(@RequestBody final MovieReviewDTO movieReviewDTO, HttpServletRequest request){
+    public void addReview(@RequestBody final MovieReviewDTO movieReviewDTO, HttpServletRequest request, @RequestBody User user){
         movieReviewDTO.getReview().setReviewTime(new Timestamp(System.currentTimeMillis()));
-        reviewService.addReview(movieReviewDTO, authService.getUserId(getToken(request)));
+        reviewService.addReview(movieReviewDTO, user.getId());
+        //reviewService.addReview(movieReviewDTO, authService.getUserId(getToken(request)));
     }
 
     @DeleteMapping(path= "/deletereview", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteReview(@RequestBody final ReviewsDTO reviewsDTO, HttpServletRequest request){
-        reviewService.deleteReview(reviewsDTO, authService.getUserId(getToken(request)));
+    public void deleteReview(@RequestBody final ReviewsDTO reviewsDTO, HttpServletRequest request, @RequestBody User user){
+        reviewService.deleteReview(reviewsDTO, user.getId());
+        //reviewService.deleteReview(reviewsDTO, authService.getUserId(getToken(request)));
     }
 
     //---------------------------------------Users----------------------------------------------
 
     @GetMapping(path= "/myreviews",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviews(HttpServletRequest request) {
+    public ReviewsDTO getUserReviews(HttpServletRequest request, @RequestBody User user) {
         //Not clear how we are getting the user id or user data at this point
-        return reviewService.getUserReviews(authService.getUserId(getToken(request)));
+        return reviewService.getUserReviews(user.getId());
+        //return reviewService.getUserReviews(authService.getUserId(getToken(request)));
     }
 
     @GetMapping(path= "/userreviews",produces= MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
@@ -60,15 +64,17 @@ public class ReviewController {
     }
 
     @GetMapping(path= "/myreviewsbyrating",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviewsByRating(@RequestParam boolean ascending, HttpServletRequest request) {
+    public ReviewsDTO getUserReviewsByRating(@RequestParam boolean ascending, HttpServletRequest request, @RequestBody User user) {
         //Not clear how we are getting the user id or user data at this point
-        return reviewService.getUserReviewsRatingOrder(ascending, authService.getUserId(getToken(request)));
+        return reviewService.getUserReviewsRatingOrder(ascending, user.getId());
+        //return reviewService.getUserReviewsRatingOrder(ascending, authService.getUserId(getToken(request)));
     }
 
     @GetMapping(path= "/myreviewsbytime",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviewsByTime(@RequestParam boolean ascending, HttpServletRequest request) {
+    public ReviewsDTO getUserReviewsByTime(@RequestParam boolean ascending, HttpServletRequest request, @RequestBody User user) {
         //Not clear how we are getting the user id or user data at this point
-        return reviewService.getUserReviewsTimeOrder(ascending, authService.getUserId(getToken(request)));
+        return reviewService.getUserReviewsTimeOrder(ascending, user.getId());
+        //return reviewService.getUserReviewsTimeOrder(ascending, authService.getUserId(getToken(request)));
     }
 
     //------------------------------------------Movies--------------------------------------
