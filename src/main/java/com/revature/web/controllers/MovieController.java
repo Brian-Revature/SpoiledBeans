@@ -1,5 +1,6 @@
 package com.revature.web.controllers;
 
+import com.revature.dtos.MoviesDTO;
 import com.revature.entities.Movie;
 import com.revature.services.MovieService;
 import com.revature.web.annotations.Secured;
