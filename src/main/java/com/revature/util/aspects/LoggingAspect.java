@@ -21,7 +21,7 @@ public class LoggingAspect {
     /**
      * A generalized point cut to make annotating methods in this class easier
      */
-    @Pointcut("within(com.revature..*)")
+    @Pointcut("within(com.revature..*) && !within(com.revature.web.filters..*)")
     public void logAllPointcut(){}
 
     /**

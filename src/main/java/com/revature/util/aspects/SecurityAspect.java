@@ -52,17 +52,11 @@ public class SecurityAspect {
 
         List<String> allowedRoles = Arrays.asList(securedAnno.allowedRoles());
 
-        Cookie[] reqCookies = request.getCookies();
+        String token = request.getHeader("spoiledBeans-token");
 
-        if (reqCookies == null) {
-            throw new AuthenticationException("An unauthenticated request was made to a protected endpoint!");
+        if(token.trim().equals("")){
+            throw new AuthenticationException("You are not an authenticated account");
         }
-
-        String token = Stream.of(reqCookies)
-                            .filter(c -> c.getName().equals("spoiledBeans-token"))
-                            .findFirst()
-                            .orElseThrow(AuthenticationException::new)
-                            .getValue();
 
         String authority = authService.getAuthorities(token);
 
