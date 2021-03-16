@@ -9,6 +9,7 @@ import com.revature.exceptions.AuthenticationException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.UserRepository;
+import com.revature.util.Encryption;
 import com.revature.web.intercom.OMDbClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,8 +46,10 @@ public class UserService {
     public void registerNewUser(final UserDTO userdto) {
         final User user = new User();
         mapUserFromDTO(user,userdto);
+        user.setPassword(Encryption.encrypt(userdto.getPassword()));
         user.setUserRole(UserRole.BASIC_USER);
         userRepo.save(user);
+        System.out.println(user);
     }
 
     public User getUserById(int id) {
@@ -110,8 +113,7 @@ public class UserService {
     }
 
     public PrincipalDTO authenticate(String username, String password) {
-
-        User authUser = userRepo.findUserByUsernameAndPassword(username, password).orElseThrow(AuthenticationException::new);
+        User authUser = userRepo.findUserByUsernameAndPassword(username, Encryption.encrypt(password)).orElseThrow(AuthenticationException::new);
         PrincipalDTO principal = new PrincipalDTO(authUser);
         String token = authService.generateToken(principal);
         principal.setToken(token);
