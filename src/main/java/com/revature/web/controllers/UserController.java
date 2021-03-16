@@ -123,17 +123,11 @@ public class UserController {
     //----------------------------------------------------------------------------
     // Helper method to process a user's cookies
     private String getToken(HttpServletRequest request){
-        Cookie[] reqCookies = request.getCookies();
-
-        if (reqCookies == null) {
-            throw new AuthenticationException("An unauthenticated request was made to a protected endpoint!");
+        String token = request.getHeader("spoiledBeans-token");
+        if(token.trim().equals("")){
+            throw new AuthenticationException("You are not an authenticated account");
         }
-
-        return Stream.of(reqCookies)
-                .filter(c -> c.getName().equals("spoiledBeans-token"))
-                .findFirst()
-                .orElseThrow(AuthenticationException::new)
-                .getValue();
+        return token;
     }
 
 }
