@@ -31,14 +31,4 @@ public class SpoiledBeansDriver {
                 .paths(PathSelectors.any())
                 .build();
     }
-
-    @Bean
-    public WebMvcConfigurer corsConfigure(){
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
-            }
-        };
-    }
 }
