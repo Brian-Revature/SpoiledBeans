@@ -46,10 +46,8 @@ public class UserService {
     public void registerNewUser(final UserDTO userdto) {
         final User user = new User();
         mapUserFromDTO(user,userdto);
-        user.setPassword(Encryption.encrypt(userdto.getPassword()));
         user.setUserRole(UserRole.BASIC_USER);
         userRepo.save(user);
-        System.out.println(user);
     }
 
     public User getUserById(int id) {
@@ -137,7 +135,7 @@ public class UserService {
             user.setUsername(userdto.getUsername());
         }
         if(userdto.getPassword() != null && !userdto.getPassword().trim().equals("")) {
-            user.setPassword(userdto.getPassword());
+            user.setPassword(Encryption.encrypt(userdto.getPassword()));
         }
         if(userdto.getFirstName() != null && !userdto.getFirstName().trim().equals("")) {
             user.setFirstName(userdto.getFirstName());
