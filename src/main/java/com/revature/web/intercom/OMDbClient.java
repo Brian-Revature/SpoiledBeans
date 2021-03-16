@@ -11,16 +11,29 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * This class handles sending requests to the foreign API that we are leveraging in our
+ * application
+ */
 @Component
 public class OMDbClient {
 
     private RestTemplate restClient;
 
+    /**
+     * Constructor that needs a rest template
+     * @param restClient the rest template leveraged to call foreign apis
+     */
     @Autowired
     public OMDbClient(RestTemplate restClient){
         this.restClient = restClient;
     }
 
+    /**
+     * This method takes a movie name as a string, and grabs it from the foreign api
+     * @param name the name of the movie
+     * @return the movie object built from the response from the api
+     */
     public Movie getMovieInformation(String name){
         String movieUrl = "http://www.omdbapi.com/?apikey=9235369b&t=";
         String[] movieNames = name.split(" ");
@@ -35,6 +48,11 @@ public class OMDbClient {
         return parseOMDbBody(restClient.exchange(movieUrl, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody());
     }
 
+    /**
+     * Parses the OMDb response into a movie object
+     * @param body the body of the response from OMDb
+     * @return the movie object
+     */
     private Movie parseOMDbBody(String body){
         body = body.replace("Title", "title");
         body = body.replace("Year", "year");
@@ -58,9 +76,6 @@ public class OMDbClient {
         m.setGenre(genres[0]);
         m.setSynopsis(o.getPlot());
 
-
         return m;
     }
-
-
 }

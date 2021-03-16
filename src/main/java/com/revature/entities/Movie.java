@@ -1,6 +1,7 @@
 package com.revature.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,6 +38,10 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "review_id")
     )
     private List<Review> allReviews;
+
+    @JsonInclude
+    @Transient
+    private double rating;
 
     public Movie(){
         super();
@@ -107,6 +112,14 @@ public class Movie {
 
     public List<Review> getAllReviews() {
         return allReviews;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     @Override

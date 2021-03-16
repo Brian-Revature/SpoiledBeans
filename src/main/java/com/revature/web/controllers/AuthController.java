@@ -5,11 +5,9 @@ import com.revature.dtos.PrincipalDTO;
 import com.revature.dtos.UserDTO;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +23,7 @@ public class AuthController {
         this.userService = userService;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/registeruser", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public void registerNewUser(@RequestBody final UserDTO userdto) {
         userService.registerNewUser(userdto);
@@ -33,7 +32,7 @@ public class AuthController {
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public PrincipalDTO authenticateUser(@RequestBody @Valid Credentials credentials, HttpServletResponse response) {
         PrincipalDTO principal = userService.authenticate(credentials.getUsername(), credentials.getPassword());
-        response.addCookie(new Cookie("spoiledBeans-token", principal.getToken()));
+        response.addHeader("spoiledBeans-token", principal.getToken());
         return principal;
     }
 

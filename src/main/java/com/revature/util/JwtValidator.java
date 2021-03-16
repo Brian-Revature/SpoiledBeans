@@ -6,16 +6,28 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class will validate JWT (JSON Web Tokens) from the a requester
+ */
 @Component
 public class JwtValidator {
 
     private JwtConfig config;
 
+    /**
+     * Constructor wiring in a JWTConfig object
+     * @param config the JWTConfig object that configured JWTs from this application
+     */
     @Autowired
     public JwtValidator(JwtConfig config) {
         this.config = config;
     }
 
+    /**
+     * Parses a string representing the token from a request cookie
+     * @param token a string representing the encrypted token
+     * @return a PrincipalDTO that sets the user ID, username and user role
+     */
     public PrincipalDTO parseToken(String token) {
 
         Claims claims = Jwts.parser()

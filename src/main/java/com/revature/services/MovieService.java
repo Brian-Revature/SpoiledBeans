@@ -9,6 +9,7 @@ import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.MovieRepository;
 import com.revature.web.intercom.OMDbClient;
+import org.springframework.aop.AopInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,11 +60,23 @@ public class MovieService {
         if(id <= 0){
             throw new InvalidRequestException();
         }
-        return movieRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
+        Movie m = movieRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
+        try {
+            m.setRating(movieRepo.findMovieRating(m.getName()));
+        }catch(AopInvocationException e){
+            m.setRating(0);
+        }
+        return m;
     }
 
     public Movie getMovieByName(String name){
-        return movieRepo.findMovieByName(name).orElseThrow(ResourceNotFoundException::new);
+        Movie m = movieRepo.findMovieByName(name).orElseThrow(ResourceNotFoundException::new);
+        try {
+            m.setRating(movieRepo.findMovieRating(name));
+        }catch(AopInvocationException e){
+            m.setRating(0);
+        }
+        return m;
     }
 
     public List<Movie> getMoviesByYear(int year){
