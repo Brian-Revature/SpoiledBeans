@@ -11,7 +11,6 @@ import com.revature.entities.UserRole;
 import com.revature.exceptions.AuthenticationException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
-import com.revature.repos.MovieRepository;
 import com.revature.repos.UserRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -20,9 +19,7 @@ import org.junit.Assert;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -409,5 +406,7 @@ public class UserServiceTester {
         Assert.assertEquals(orderedList,fullUserOrganized);
     }
 
-    //-------------------------------------------getFavByName-----------------------------------------------------------
+    //-------------------------------------------UpdateUser-------------------------------------------------------------
+
+
 }
