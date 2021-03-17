@@ -9,6 +9,7 @@ import com.revature.exceptions.AuthenticationException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.UserRepository;
+import com.revature.util.Encryption;
 import com.revature.web.intercom.OMDbClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,8 +47,11 @@ public class UserService {
         final User user = new User();
         userdto.setUserRole(UserRole.BASIC_USER.toString());
         mapUserFromDTO(user,userdto);
+        user.setUserRole(UserRole.BASIC_USER);
         userValid(userdto);
+
         userRepo.save(user);
+        System.out.println(user);
     }
 
     public User getUserById(int id) {
@@ -114,7 +118,7 @@ public class UserService {
     }
 
     public PrincipalDTO authenticate(String username, String password) {
-        User authUser = userRepo.findUserByUsernameAndPassword(username, password).orElseThrow(AuthenticationException::new);
+        User authUser = userRepo.findUserByUsernameAndPassword(username, Encryption.encrypt(password)).orElseThrow(AuthenticationException::new);
         PrincipalDTO principal = new PrincipalDTO(authUser);
         String token = authService.generateToken(principal);
         principal.setToken(token);
@@ -138,7 +142,7 @@ public class UserService {
         if(userdto.getUsername() != null && !userdto.getUsername().trim().equals(""))
             user.setUsername(userdto.getUsername());
         if(userdto.getPassword() != null && !userdto.getPassword().trim().equals(""))
-            user.setPassword(userdto.getPassword());
+            user.setPassword(Encryption.encrypt(userdto.getPassword()));
         if(userdto.getFirstName() != null && !userdto.getFirstName().trim().equals(""))
             user.setFirstName(userdto.getFirstName());
         if(userdto.getLastName() != null && !userdto.getLastName().trim().equals(""))

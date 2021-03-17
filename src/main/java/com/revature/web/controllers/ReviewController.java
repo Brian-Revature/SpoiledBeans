@@ -10,6 +10,7 @@ import com.revature.services.AuthService;
 import com.revature.services.ReviewService;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,7 @@ public class ReviewController {
     }
 
     //--------------------------------------General---------------------------------------------
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path= "/addreview",consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addReview(@RequestBody final MovieReviewDTO movieReviewDTO, HttpServletRequest request){
         movieReviewDTO.getReview().setReviewTime(new Timestamp(System.currentTimeMillis()));
@@ -91,17 +93,11 @@ public class ReviewController {
     //------------------------------------------Util----------------------------------------
 
     private String getToken(HttpServletRequest request){
-        Cookie[] reqCookies = request.getCookies();
-
-        if (reqCookies == null) {
-            throw new AuthenticationException("An unauthenticated request was made to a protected endpoint!");
+        String token = request.getHeader("spoiledBeans-token");
+        if(token.trim().equals("")){
+            throw new AuthenticationException("You are not an authenticated account");
         }
-
-        return Stream.of(reqCookies)
-                .filter(c -> c.getName().equals("spoiledBeans-token"))
-                .findFirst()
-                .orElseThrow(AuthenticationException::new)
-                .getValue();
+        return token;
     }
 
 

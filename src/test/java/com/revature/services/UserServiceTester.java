@@ -12,6 +12,7 @@ import com.revature.exceptions.AuthenticationException;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.UserRepository;
+import com.revature.util.Encryption;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -346,7 +347,7 @@ public class UserServiceTester {
         fullUser.setId(1);
         PrincipalDTO fullUserPrinciple = new PrincipalDTO(fullUser);
         when(mockUserRepo.findUserByUsernameAndPassword(fullUser.getUsername(),
-                fullUser.getPassword())).thenReturn(Optional.of(fullUser));
+                Encryption.encrypt(fullUser.getPassword()))).thenReturn(Optional.of(fullUser));
         when(mockAuthService.generateToken(fullUserPrinciple)).thenReturn("Token");
 
         //Act
@@ -408,5 +409,20 @@ public class UserServiceTester {
 
     //-------------------------------------------UpdateUser-------------------------------------------------------------
 
+    @Test
+    public void validUpdateUser(){
+        //Arrange
+        when(mockUserRepo.findById(1)).thenReturn(Optional.of(fullUser));
+        userDTO.setUsername(fullUser.getUsername());
+        userDTO.setPassword(fullUser.getPassword());
+        userDTO.setBio(fullUser.getBio());
+        userDTO.setEmail(fullUser.getEmail());
+        userDTO.setFirstName(fullUser.getFirstName());
+        userDTO.setLastName(fullUser.getLastName());
+        when(mockUserRepo.save(fullUser)).thenReturn(fullUser);
+
+        //Act
+        mockUserService.updateUser(userDTO,1);
+    }
 
 }
