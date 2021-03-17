@@ -48,12 +48,12 @@ public class UserController {
 
     /**
      * Returns the user that matches the supplied username
-     * @param userdto
+     * @param username
      * @return
      */
     @GetMapping(path = "/getuserbyusername", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserByUsername(@RequestBody UserDTO userdto) {
-        return userService.getUserByUsername(userdto.getUsername());
+    public User getUserByUsername(@RequestParam String username) {
+        return userService.getUserByUsername(username);
     }
 
     /**
@@ -80,12 +80,12 @@ public class UserController {
 
     /**
      * Returns a list of a user's favorite movies based on the supplied username
-     * @param userdto
+     * @param username
      * @return
      */
     @GetMapping(path= "/userfavorites",produces= MediaType.APPLICATION_JSON_VALUE)
-    public FavoritesDTO getUserFavorites(@RequestBody UserDTO userdto) {
-        return userService.getUserFavorites(userdto.getUsername());
+    public FavoritesDTO getUserFavorites(@RequestParam String username) {
+        return userService.getUserFavorites(username);
     }
 
     /**
