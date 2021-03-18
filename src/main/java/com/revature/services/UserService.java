@@ -45,9 +45,11 @@ public class UserService {
 
     public void registerNewUser(final UserDTO userdto) {
         final User user = new User();
+        userdto.setUserRole(UserRole.BASIC_USER.toString());
         mapUserFromDTO(user,userdto);
-        user.setPassword(Encryption.encrypt(userdto.getPassword()));
         user.setUserRole(UserRole.BASIC_USER);
+        userValid(userdto);
+
         userRepo.save(user);
         System.out.println(user);
     }
@@ -108,6 +110,9 @@ public class UserService {
     public void deleteUserFavorite(final MoviesDTO moviesDTO, int id) {
         final User user = getUserById(id);
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
+        if (!user.getUserFavorites().contains(movie))
+            throw new ResourceNotFoundException();
+
         user.removeMovieFromFavorites(movie);
         userRepo.save(user);
     }
@@ -132,27 +137,30 @@ public class UserService {
 
     //-----------------------------------------Utility------------------------------------
 
+    //TODO: Replace Basic User functionality with a check for the given role.
     private void mapUserFromDTO(final User user, final UserDTO userdto) {
-        if(userdto.getUsername() != null && !userdto.getUsername().trim().equals("")) {
+        if(userdto.getUsername() != null && !userdto.getUsername().trim().equals(""))
             user.setUsername(userdto.getUsername());
-        }
-        if(userdto.getPassword() != null && !userdto.getPassword().trim().equals("")) {
-            user.setPassword(userdto.getPassword());
-        }
-        if(userdto.getFirstName() != null && !userdto.getFirstName().trim().equals("")) {
+        if(userdto.getPassword() != null && !userdto.getPassword().trim().equals(""))
+            user.setPassword(Encryption.encrypt(userdto.getPassword()));
+        if(userdto.getFirstName() != null && !userdto.getFirstName().trim().equals(""))
             user.setFirstName(userdto.getFirstName());
-        }
-        if(userdto.getLastName() != null && !userdto.getLastName().trim().equals("")) {
+        if(userdto.getLastName() != null && !userdto.getLastName().trim().equals(""))
             user.setLastName(userdto.getLastName());
-        }
-        if(userdto.getEmail() != null && !userdto.getEmail().trim().equals("")) {
+        if(userdto.getEmail() != null && !userdto.getEmail().trim().equals(""))
             user.setEmail(userdto.getEmail());
-        }
-        if(userdto.getBio() != null && !userdto.getBio().trim().equals("")) {
+        if(userdto.getBio() != null && !userdto.getBio().trim().equals(""))
             user.setBio(userdto.getBio());
-        }
-        if(userdto.getUserRole() != null && !userdto.getUserRole().trim().equals("")) {
-            user.setUserRole(UserRole.valueOf(userdto.getUserRole()));
-        }
+        if(userdto.getUserRole() != null && !userdto.getUserRole().trim().equals(""))
+            user.setUserRole(UserRole.BASIC_USER);
+    }
+
+    private void userValid(final UserDTO userDTO){
+        if (userDTO.getUsername() == null || userDTO.getUsername().trim().equals(""))
+            throw new InvalidRequestException();
+        if (userDTO.getPassword() == null || userDTO.getPassword().trim().equals(""))
+            throw new InvalidRequestException();
+        if (userDTO.getEmail() == null || userDTO.getEmail().trim().equals(""))
+            throw new InvalidRequestException();
     }
 }

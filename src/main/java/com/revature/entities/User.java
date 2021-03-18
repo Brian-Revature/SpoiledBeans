@@ -68,6 +68,15 @@ public class User {
         userReviews = new ArrayList<>();
     }
 
+    public User(String username, String password, String email, String firstName, String lastName, String bio) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.bio = bio;
+    }
+
     public int getId() {
         return id;
     }

@@ -73,7 +73,7 @@ public class ReviewController {
 
     //------------------------------------------Movies--------------------------------------
 
-    @GetMapping(path= "/moviereviews",produces= MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path= "/moviereviews",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviewsByMovie(@RequestParam String name) {
         return reviewService.getMovieReviews(name);
     }
