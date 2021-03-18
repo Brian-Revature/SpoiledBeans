@@ -34,7 +34,7 @@ public class ReviewService {
     }
 
     //--------------------------------Core-Service-------------------------------------------------
-    public void addReview(MovieReviewDTO movieReviewDTO, int id) {
+    public void addReview(MovieReviewDTO movieReviewDTO, int id)    {
         final User user = userService.getUserById(id);
         boolean movieDoesntExist = movieService.saveNewMovie(movieReviewDTO.getMovie());
         final Movie movie = movieService.getMovieByName(movieReviewDTO.getMovie().getName());
@@ -64,26 +64,16 @@ public class ReviewService {
 
         reviewRepository.save(review);
     }
-
     public boolean deleteReview(ReviewsDTO reviewsDTO, int userId) {
         final User user = userService.getUserById(userId);
-
-        System.out.println(reviewsDTO);
-
         for (Review r: user.getUserReviews()) {
-            System.out.println(r);
             if (r.getMovie().getName().equals(reviewsDTO.getMovie())){
                 user.removeReview(r);
                 userService.updateUser(user);
-                return true;
-            }
+                return true; }
         }
-
-        return false;
-    }
-
+        return false; }
     //--------------------------------User-Related-------------------------------------------------
-
     private ReviewsDTO getReviewsDTO(User user){
         ReviewsDTO revs = new ReviewsDTO();
         revs.setUsername(user.getUsername());
@@ -97,35 +87,25 @@ public class ReviewService {
         revs.setMovies(movies);
         return revs;
     }
-
     public ReviewsDTO getUserReviews(int id){
         return getReviewsDTO(userService.getUserById(id));
     }
-
     public ReviewsDTO getUserReviews(String username){
         return getReviewsDTO(userService.getUserByUsername(username));
     }
-
-    //Function used to sort by Ascending/Descending review ratings
     public ReviewsDTO getUserReviewsRatingOrder(boolean ascending, int id) {
         final User user = userService.getUserById(id);
         ReviewsDTO reviewsDTO = new ReviewsDTO();
         reviewsDTO.setReviews(user.getUserReviews());
         reviewsDTO.setUsername(user.getUsername());
-
         Comparator<Review> compareByRating = (ascending) ?
                 (Review r1, Review r2) -> Double.compare(r1.getRating(),r2.getRating()) :
                 (Review r1, Review r2) -> Double.compare(r2.getRating(),r1.getRating());
         Collections.sort(reviewsDTO.getReviews(),compareByRating);
-
         for (Review r: reviewsDTO.getReviews()) {
             reviewsDTO.getMovies().add(r.getMovie());
         }
-
-        return reviewsDTO;
-    }
-
-    //Function used to sort by Ascending/Descending timestamp ratings
+        return reviewsDTO; }
     public ReviewsDTO getUserReviewsTimeOrder(boolean ascending, int id) {
         ReviewsDTO reviewsDTO = new ReviewsDTO();
         final User user = userService.getUserById(id);
@@ -143,26 +123,20 @@ public class ReviewService {
 
         return reviewsDTO;
     }
-
     //-----------------------------------------Movie-Related----------------------------------
-
     private ReviewsDTO getReviewsDTO(Movie movie){
         ReviewsDTO revs = new ReviewsDTO();
         revs.setMovie(movie.getName());
         revs.setReviews(movie.getAllReviews());
         List<User> reviewers = new ArrayList<>();
-
         for (Review r: movie.getAllReviews()) {
             reviewers.add(r.getReviewer());
         }
-
         revs.setUsers(reviewers);
-        return revs;
-    }
+        return revs; }
 
     public ReviewsDTO getMovieReviews(String movieName) {return getReviewsDTO(movieService.getMovieByName(movieName)); }
 
-    //Function used to sort by Ascending/Descending review ratings
     public ReviewsDTO getMovieReviewsRatingOrder(boolean ascending, String movieName) {
         final Movie movie = movieService.getMovieByName(movieName);
         ReviewsDTO reviewsDTO = new ReviewsDTO();
@@ -181,7 +155,6 @@ public class ReviewService {
         return reviewsDTO;
     }
 
-    //Function used to sort by Ascending/Descending timestamp ratings
     public ReviewsDTO getMovieReviewsTimeOrder(boolean ascending, String movieName) {
         final Movie movie = movieService.getMovieByName(movieName);
         ReviewsDTO reviewsDTO = new ReviewsDTO();
@@ -196,7 +169,6 @@ public class ReviewService {
         for (Review r: reviewsDTO.getReviews()) {
             reviewsDTO.getUsers().add(r.getReviewer());
         }
-
         return reviewsDTO;
     }
 

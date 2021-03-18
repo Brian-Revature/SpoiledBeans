@@ -35,7 +35,7 @@ public class PrincipalDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PrincipalDTO that = (PrincipalDTO) o;
-        return id == that.id && username.equals(that.username) && userRole.equals(that.userRole) && token.equals(that.token);
+        return id == that.id && username.equals(that.username) && userRole.equals(that.userRole);
     }
 
     @Override
