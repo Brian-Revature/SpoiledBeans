@@ -137,13 +137,8 @@ public class MovieController {
      * @param m a movie object passed in
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @Secured(allowedRoles = {"Admin"})
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public void addMovieByName(@RequestBody Movie m){
-        if(movieService.saveNewMovie(m)){
-            System.out.println("movie saved");
-        }else{
-            System.out.println("movie already in DB");
-        }
+        movieService.saveNewMovie(m);
     }
 }
