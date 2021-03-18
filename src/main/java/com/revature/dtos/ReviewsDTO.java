@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * DTO for returning a list a movie reviews from database.
+ */
 public class ReviewsDTO {
 
     private String username;
@@ -26,7 +29,7 @@ public class ReviewsDTO {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(final List<User> users) {
         this.users = users;
     }
 
@@ -34,7 +37,7 @@ public class ReviewsDTO {
         return movies;
     }
 
-    public void setMovies(List<Movie> movies) {
+    public void setMovies(final List<Movie> movies) {
         this.movies = movies;
     }
 
@@ -42,7 +45,7 @@ public class ReviewsDTO {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -50,7 +53,7 @@ public class ReviewsDTO {
         return movie;
     }
 
-    public void setMovie(String movie) {
+    public void setMovie(final String movie) {
         this.movie = movie;
     }
 
@@ -63,10 +66,10 @@ public class ReviewsDTO {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReviewsDTO that = (ReviewsDTO) o;
+        final ReviewsDTO that = (ReviewsDTO) o;
         return Objects.equals(username, that.username) && Objects.equals(movie, that.movie) && Objects.equals(reviews, that.reviews);
     }
 

@@ -5,17 +5,22 @@ import com.revature.entities.Movie;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A DTO to facilitate sending User Favorite Movies between databse and client.
+ */
 public class FavoritesDTO {
+    private String username;
+    private List<Movie> favorites;
+
     public FavoritesDTO() {
     }
 
-    private String username;
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -23,15 +28,15 @@ public class FavoritesDTO {
         return favorites;
     }
 
-    public void setFavorites(List<Movie> favorites) {
+    public void setFavorites(final List<Movie> favorites) {
         this.favorites = favorites;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FavoritesDTO that = (FavoritesDTO) o;
+        final FavoritesDTO that = (FavoritesDTO) o;
         return username.equals(that.username) && Objects.equals(favorites, that.favorites);
     }
 
@@ -48,5 +53,4 @@ public class FavoritesDTO {
                 '}';
     }
 
-    private List<Movie> favorites;
 }

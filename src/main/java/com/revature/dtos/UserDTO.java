@@ -4,7 +4,7 @@ package com.revature.dtos;
 import java.util.Objects;
 
 /**
- * Data Transfer Object to facilitate sending user data between client side and backend.
+ * DTO for transferring User data between client and backend.
  */
 public class UserDTO {
     private String username;
@@ -24,7 +24,7 @@ public class UserDTO {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -32,7 +32,7 @@ public class UserDTO {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -40,7 +40,7 @@ public class UserDTO {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -48,7 +48,7 @@ public class UserDTO {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -56,7 +56,7 @@ public class UserDTO {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -64,7 +64,7 @@ public class UserDTO {
         return bio;
     }
 
-    public void setBio(String bio) {
+    public void setBio(final String bio) {
         this.bio = bio;
     }
 
@@ -72,15 +72,15 @@ public class UserDTO {
         return userRole;
     }
 
-    public void setUserRole(String userRole) {
+    public void setUserRole(final String userRole) {
         this.userRole = userRole;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
+        final UserDTO userDTO = (UserDTO) o;
         return Objects.equals(username, userDTO.username) && Objects.equals(password, userDTO.password) && Objects.equals(email, userDTO.email) && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(bio, userDTO.bio) && Objects.equals(userRole, userDTO.userRole);
     }
 

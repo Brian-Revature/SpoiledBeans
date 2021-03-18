@@ -2,6 +2,9 @@ package com.revature.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * DTO for retrieving Movie data from OMDb API.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OMDbDTO {
 
@@ -18,7 +21,7 @@ public class OMDbDTO {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -26,7 +29,7 @@ public class OMDbDTO {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(final int year) {
         this.year = year;
     }
 
@@ -34,7 +37,7 @@ public class OMDbDTO {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(final String genre) {
         this.genre = genre;
     }
 
@@ -42,7 +45,7 @@ public class OMDbDTO {
         return director;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(final String director) {
         this.director = director;
     }
 
@@ -50,7 +53,7 @@ public class OMDbDTO {
         return plot;
     }
 
-    public void setPlot(String plot) {
+    public void setPlot(final String plot) {
         this.plot = plot;
     }
 }

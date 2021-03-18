@@ -5,6 +5,10 @@ import com.revature.entities.Review;
 
 import java.util.Objects;
 
+
+/**
+ * A DTO for transferring movie reviews between client and backend.
+ */
 public class MovieReviewDTO {
 
     private Movie movie;
@@ -13,7 +17,7 @@ public class MovieReviewDTO {
     public MovieReviewDTO() {
     }
 
-    public MovieReviewDTO(Movie movie, Review review) {
+    public MovieReviewDTO(final Movie movie, final Review review) {
         this.movie = movie;
         this.review = review;
     }
@@ -22,7 +26,7 @@ public class MovieReviewDTO {
         return movie;
     }
 
-    public void setMovie(Movie movie) {
+    public void setMovie(final Movie movie) {
         this.movie = movie;
     }
 
@@ -30,15 +34,15 @@ public class MovieReviewDTO {
         return review;
     }
 
-    public void setReview(Review review) {
+    public void setReview(final Review review) {
         this.review = review;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MovieReviewDTO that = (MovieReviewDTO) o;
+        final MovieReviewDTO that = (MovieReviewDTO) o;
         return Objects.equals(movie, that.movie) && Objects.equals(review, that.review);
     }
 
