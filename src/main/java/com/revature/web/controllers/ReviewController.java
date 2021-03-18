@@ -55,8 +55,8 @@ public class ReviewController {
     }
 
     @GetMapping(path= "/userreviews",produces= MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviews(@RequestBody UserDTO userdto) {
-        return reviewService.getUserReviews(userdto.getUsername());
+    public ReviewsDTO getUserReviewsByUser(@RequestParam String username) {
+        return reviewService.getUserReviews(username);
     }
 
     @GetMapping(path= "/myreviewsbyrating",produces= MediaType.APPLICATION_JSON_VALUE)
@@ -74,20 +74,20 @@ public class ReviewController {
     //------------------------------------------Movies--------------------------------------
 
     @GetMapping(path= "/moviereviews",produces= MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviews(@RequestBody MoviesDTO moviesDTO) {
-        return reviewService.getMovieReviews(moviesDTO.getName());
+    public ReviewsDTO getUserReviewsByMovie(@RequestParam String name) {
+        return reviewService.getMovieReviews(name);
     }
 
     @GetMapping(path= "/moviereviewsbyrating",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getMovieReviewsByRating(@RequestParam boolean ascending, @RequestBody MoviesDTO moviesDTO) {
+    public ReviewsDTO getMovieReviewsByRating(@RequestParam boolean ascending, @RequestParam String name) {
         //Not clear how we are getting the user id or user data at this point
-        return reviewService.getMovieReviewsRatingOrder(ascending, moviesDTO.getName());
+        return reviewService.getMovieReviewsRatingOrder(ascending, name);
     }
 
     @GetMapping(path= "/moviereviewsbytime",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getMovieReviewsByTime(@RequestParam boolean ascending, @RequestBody MoviesDTO moviesDTO) {
+    public ReviewsDTO getMovieReviewsByTime(@RequestParam boolean ascending, @RequestParam String name) {
         //Not clear how we are getting the user id or user data at this point
-        return reviewService.getMovieReviewsTimeOrder(ascending, moviesDTO.getName());
+        return reviewService.getMovieReviewsTimeOrder(ascending, name);
     }
 
     //------------------------------------------Util----------------------------------------
