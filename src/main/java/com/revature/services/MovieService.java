@@ -31,14 +31,12 @@ public class MovieService {
     }
 
     public void save(Movie m){
-        movieRepo.save(m);
-    }
+        movieRepo.save(m); }
 
     public boolean saveNewMovie(Movie m){
         Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
         if(movie.isPresent()){
-            return false;
-        }
+            return false; }
         movieRepo.save(omdb.getMovieInformation(m.getName()));
         return true;
     }
@@ -46,8 +44,7 @@ public class MovieService {
     public boolean saveNewMovie(MoviesDTO m){
         Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
         if(movie.isPresent()){
-            return false;
-        }
+            return false; }
         movieRepo.save(omdb.getMovieInformation(m.getName()));
         return true;
     }
@@ -58,8 +55,7 @@ public class MovieService {
 
     public Movie getMovieById(int id){
         if(id <= 0){
-            throw new InvalidRequestException();
-        }
+            throw new InvalidRequestException(); }
         Movie m = movieRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
         try {
             m.setRating(movieRepo.findMovieRating(m.getName()));
