@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service CLass which handles getting Movie data from database or sending Movie data to database.
+ *  Service Class which
  */
 @Service
 public class MovieService {
