@@ -55,12 +55,12 @@ public class ReviewController {
     }
 
     @GetMapping(path= "/myreviewsbyrating",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviewsByRating(@RequestParam boolean ascending,final HttpServletRequest request) {
+    public ReviewsDTO getUserReviewsByRating(@RequestParam final boolean ascending,final HttpServletRequest request) {
         return reviewService.getUserReviewsRatingOrder(ascending, authService.getUserId(getToken(request)));
     }
 
     @GetMapping(path= "/myreviewsbytime",produces= MediaType.APPLICATION_JSON_VALUE)
-    public ReviewsDTO getUserReviewsByTime(@RequestParam boolean ascending,final HttpServletRequest request) {
+    public ReviewsDTO getUserReviewsByTime(@RequestParam final boolean ascending,final HttpServletRequest request) {
         return reviewService.getUserReviewsTimeOrder(ascending, authService.getUserId(getToken(request)));
     }
 
