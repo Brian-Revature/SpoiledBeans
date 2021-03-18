@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
 /**
- * Controller class which handles taking in and sending out movie reviews.
+ *
+ *
  */
 @RestController
 @RequestMapping("/reviews")
