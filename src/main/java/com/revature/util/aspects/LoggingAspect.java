@@ -29,7 +29,7 @@ public class LoggingAspect {
      * @param jp the method that will have the advice run before
      */
     @Before("logAllPointcut()")
-    public void logMethodStart(JoinPoint jp){
+    public void logMethodStart(final JoinPoint jp){
         String methodSig = extractMethodSignature(jp);
         String argStr = Arrays.toString(jp.getArgs());
         logger.info("{} invoked at {}; input arguments: {}", methodSig, LocalDateTime.now(), argStr);
@@ -41,7 +41,7 @@ public class LoggingAspect {
      * @param returned the object returned from the method
      */
     @AfterReturning(pointcut = "logAllPointcut()", returning = "returned")
-    public void logMethodReturn(JoinPoint jp, Object returned){
+    public void logMethodReturn(final JoinPoint jp, Object returned){
         String methodSig = extractMethodSignature(jp);
         logger.info("{} successfully returned at {} with a value of {}", methodSig, LocalDateTime.now(), returned);
     }
@@ -52,7 +52,7 @@ public class LoggingAspect {
      * @param e the exception thrown by the method
      */
     @AfterThrowing(pointcut = "logAllPointcut()", throwing = "e")
-    public void logErrorOccurring(JoinPoint jp, Exception e){
+    public void logErrorOccurring(final JoinPoint jp,final Exception e){
         String methodSig = extractMethodSignature(jp);
         logger.error("{} was thrown in method {} at {} with message: {}", e.getClass().getSimpleName(), methodSig, LocalDateTime.now(), e.getMessage());
     }
@@ -62,7 +62,7 @@ public class LoggingAspect {
      * @param jp the method to get the signature
      * @return the string representation of the method signature
      */
-    private String extractMethodSignature(JoinPoint jp) {
+    private String extractMethodSignature(final JoinPoint jp) {
         return jp.getTarget().getClass().toString() + "." + jp.getSignature().getName();
     }
 }
