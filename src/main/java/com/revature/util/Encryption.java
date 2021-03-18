@@ -13,8 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 /**
- * This is a singleton class that will encrypt a string that is passed
- * to it
+ * This is a singleton class that will encrypt a string that is passed to it
  */
 @Component
 public class Encryption {
@@ -25,9 +24,9 @@ public class Encryption {
      * @param message the message to be encrypted
      * @return the encrypted message string
      */
-    public static String encrypt(String message){
+    public static String encrypt(final String message){
 
-        byte[] encryptionKeyBytes = System.getenv("private_key").getBytes();
+        final byte[] encryptionKeyBytes = System.getenv("private_key").getBytes();
         byte[] encryptedMessage;
         Cipher cipher;
 
@@ -37,7 +36,7 @@ public class Encryption {
             throw new ResourceNotFoundException();
         }
 
-        SecretKey secretKey = new SecretKeySpec(encryptionKeyBytes, "AES");
+        final SecretKey secretKey = new SecretKeySpec(encryptionKeyBytes, "AES");
 
         try {
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);

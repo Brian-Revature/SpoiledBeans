@@ -15,14 +15,14 @@ import java.util.Date;
 @Component
 public class JwtGenerator {
 
-    private JwtConfig config;
+    private final JwtConfig config;
 
     /**
      * Takes in a JWTConfig that configures a JWT
      * @param config the configuration object to configure JWTs for this application
      */
     @Autowired
-    public JwtGenerator(JwtConfig config) {
+    public JwtGenerator(final JwtConfig config) {
         this.config = config;
     }
 
@@ -31,11 +31,11 @@ public class JwtGenerator {
      * @param subject the principal dto of user information
      * @return a string representation of the token
      */
-    public String createToken(PrincipalDTO subject) {
+    public String createToken(final PrincipalDTO subject) {
 
-        long now = System.currentTimeMillis();
+        final long now = System.currentTimeMillis();
 
-        JwtBuilder builder = Jwts.builder()
+        final JwtBuilder builder = Jwts.builder()
                 .setId(String.valueOf(subject.getId()))
                 .setSubject(subject.getUsername())
                 .claim("role", subject.getUserRole())

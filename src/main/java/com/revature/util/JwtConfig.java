@@ -3,7 +3,6 @@ package com.revature.util;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -23,7 +22,7 @@ public class JwtConfig {
         Static block to initialize the signing key
      */
     {
-        byte[] secretBytes = DatatypeConverter.parseBase64Binary(secretKey);
+        final byte[] secretBytes = DatatypeConverter.parseBase64Binary(secretKey);
         SIGNING_KEY = new SecretKeySpec(secretBytes, SIG_ALG.getJcaName());
     }
 
@@ -39,7 +38,7 @@ public class JwtConfig {
      * Sets the secret key for the JWT configuration
      * @param secretKey the secret key as a string
      */
-    public void setSecretKey(String secretKey) {
+    public void setSecretKey(final String secretKey) {
         this.secretKey = secretKey;
     }
 
