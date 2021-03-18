@@ -102,20 +102,33 @@ public class ReviewController {
     //------------------------------------------Movies--------------------------------------
 
     /**
-     * Method
-     * @param name
-     * @return
+     * Method to get All user reviews of a given movie.
+     * @param name name of movie to get reviews of.
+     * @return DTO containing list of all user reviews for the given movie.
      */
     @GetMapping(path= "/moviereviews",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviewsByMovie(@RequestParam final String name) {
         return reviewService.getMovieReviews(name);
     }
 
+    /**
+     *
+     * Method to get a sorted list of All user reviews of a given movie. list is sorted by rating.
+     * @param name name of movie to get reviews of.
+     * @param ascending controls if list is sorted ascending or descending. true = ascending.
+     * @return DTO containing list of all user reviews for the given movie.
+     */
     @GetMapping(path= "/moviereviewsbyrating",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getMovieReviewsByRating(@RequestParam final boolean ascending, @RequestParam final String name) {
         return reviewService.getMovieReviewsRatingOrder(ascending, name);
     }
 
+    /**
+     * Method to get a sorted list of all User reviews of a movie. list is sorted by date of review.
+     * @param name name of movie to get reviews of.
+     * @param ascending controls if list is sorted ascending or descending. true = ascending.
+     * @return DTO containing list of all user reviews for the given movie.
+     */
     @GetMapping(path= "/moviereviewsbytime",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getMovieReviewsByTime(@RequestParam final boolean ascending, @RequestParam final String name) {
         return reviewService.getMovieReviewsTimeOrder(ascending, name);
@@ -123,6 +136,7 @@ public class ReviewController {
 
     //------------------------------------------Util----------------------------------------
 
+    //helper method to get the toke from the http request.
     private String getToken(final HttpServletRequest request){
         final String token = request.getHeader("spoiledBeans-token");
         if(token.trim().equals("")){
