@@ -16,7 +16,9 @@ import java.util.Set;
 
 
 /**
- *  This is the collection of endpoints for movies
+ *  Controller class to handle movie request.
+ *  Controller handles adding movies to the site.
+ *  Controller also send back movie data form the backend.
  */
 @RestController
 @RequestMapping("/movies")
@@ -26,7 +28,7 @@ public class MovieController {
 
     /**
      *  gets the reference to the movieService by using the one passed in
-     * @param movieService  the inbetween for the controller and the MovieRepository that handles the business logic
+     * @param movieService  the in between for the controller and the MovieRepository that handles the business logic
      */
     @Autowired
     public MovieController(final MovieService movieService){
