@@ -1,17 +1,20 @@
 package com.revature.entities;
 
+/**
+ * Enum which represents a user's role on the site.
+ */
 public enum UserRole {
 
     EMPTY(""), ADMIN("Admin"), MODERATOR("Moderator"),
     BASIC_USER("Basic User"), PREMIUM_USER("Premium User");
 
-    private String name;
+    private final String name;
 
     UserRole(String name) {
         this.name = name;
     }
 
-    public static String valueOf(UserRole role) {
+    public static String valueOf(final UserRole role) {
         return role.name;
     }
 
