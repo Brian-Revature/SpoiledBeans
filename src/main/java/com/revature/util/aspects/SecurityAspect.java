@@ -25,8 +25,8 @@ import java.util.stream.Stream;
 @Component
 public class SecurityAspect {
 
-    private HttpServletRequest request;
-    private AuthService authService;
+    private final HttpServletRequest request;
+    private final AuthService authService;
 
     /**
      * Constructor that SpringBoot handles with auto wiring
@@ -34,7 +34,7 @@ public class SecurityAspect {
      * @param authService the auth service
      */
     @Autowired
-    public SecurityAspect(HttpServletRequest request, AuthService authService){
+    public SecurityAspect(final HttpServletRequest request,final AuthService authService){
         this.request = request;
         this.authService = authService;
     }
@@ -46,19 +46,19 @@ public class SecurityAspect {
      * @throws Throwable an error
      */
     @Around("@annotation(com.revature.web.annotations.Secured)")
-    public Object secureEndpoint(ProceedingJoinPoint pjp) throws Throwable {
-        Method method = ((MethodSignature) pjp.getSignature()).getMethod();
-        Secured securedAnno = method.getAnnotation(Secured.class);
+    public Object secureEndpoint(final ProceedingJoinPoint pjp) throws Throwable {
+        final Method method = ((MethodSignature) pjp.getSignature()).getMethod();
+        final Secured securedAnno = method.getAnnotation(Secured.class);
 
-        List<String> allowedRoles = Arrays.asList(securedAnno.allowedRoles());
+        final List<String> allowedRoles = Arrays.asList(securedAnno.allowedRoles());
 
-        String token = request.getHeader("spoiledBeans-token");
+        final String token = request.getHeader("spoiledBeans-token");
 
         if(token.trim().equals("")){
             throw new AuthenticationException("You are not an authenticated account");
         }
 
-        String authority = authService.getAuthorities(token);
+        final String authority = authService.getAuthorities(token);
 
         if(!allowedRoles.contains(authority)){
             throw new AuthorizationException();

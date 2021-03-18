@@ -2,16 +2,19 @@ package com.revature.dtos;
 
 import java.util.Objects;
 
+/**
+ * DTO which facilitates transferring user credentials.
+ */
 public class Credentials {
 
     private String username;
     private String password;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Credentials that = (Credentials) o;
+        final Credentials that = (Credentials) o;
         return username.equals(that.username) && password.equals(that.password);
     }
 

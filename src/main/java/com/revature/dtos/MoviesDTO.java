@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * Data transfer Object to facilitate sending movies between client and backend.
+ * A DTO for transferring Movie data between client and backend.
  */
 public class MoviesDTO {
 
@@ -24,7 +24,7 @@ public class MoviesDTO {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -32,7 +32,7 @@ public class MoviesDTO {
         return director;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(final String director) {
         this.director = director;
     }
 
@@ -40,7 +40,7 @@ public class MoviesDTO {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(final String genre) {
         this.genre = genre;
     }
 
@@ -48,7 +48,7 @@ public class MoviesDTO {
         return synopsis;
     }
 
-    public void setSynopsis(String synopsis) {
+    public void setSynopsis(final String synopsis) {
         this.synopsis = synopsis;
     }
 
@@ -56,15 +56,15 @@ public class MoviesDTO {
         return year;
     }
 
-    public void setYear(LocalDate year) {
+    public void setYear(final LocalDate year) {
         this.year = year;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MoviesDTO moviesDTO = (MoviesDTO) o;
+        final MoviesDTO moviesDTO = (MoviesDTO) o;
         return Objects.equals(name, moviesDTO.name) && Objects.equals(director, moviesDTO.director) && Objects.equals(genre, moviesDTO.genre) && Objects.equals(synopsis, moviesDTO.synopsis) && Objects.equals(year, moviesDTO.year);
     }
 

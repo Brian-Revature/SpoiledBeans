@@ -1,19 +1,14 @@
 package com.revature.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class to represent Movie reviews stored inside of database.
+ */
 @Entity @DynamicInsert
 @Table(name = "review")
 public class Review {
@@ -55,7 +50,7 @@ public class Review {
         super();
     }
 
-    public Review(double rating, String review, Movie movie, User reviewer) {
+    public Review(final double rating,final String review,final Movie movie,final User reviewer) {
         this.rating = rating;
         this.review = review;
         this.movie = movie;
@@ -66,7 +61,7 @@ public class Review {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -74,7 +69,7 @@ public class Review {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(final double rating) {
         this.rating = rating;
     }
 
@@ -82,7 +77,7 @@ public class Review {
         return review;
     }
 
-    public void setReview(String review) {
+    public void setReview(final String review) {
         this.review = review;
     }
 
@@ -90,7 +85,7 @@ public class Review {
         return reviewTime;
     }
 
-    public void setReviewTime(Timestamp reviewTime) {
+    public void setReviewTime(final Timestamp reviewTime) {
         this.reviewTime = reviewTime;
     }
 
@@ -98,7 +93,7 @@ public class Review {
         return movie;
     }
 
-    public void setMovie(Movie movie) {
+    public void setMovie(final Movie movie) {
         this.movie = movie;
     }
 
@@ -106,15 +101,15 @@ public class Review {
         return reviewer;
     }
 
-    public void setReviewer(User reviewer) {
+    public void setReviewer(final User reviewer) {
         this.reviewer = reviewer;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Review review1 = (Review) o;
+        final Review review1 = (Review) o;
         return id == review1.id && Double.compare(review1.rating, rating) == 0 && Objects.equals(review, review1.review) && Objects.equals(reviewTime, review1.reviewTime);
     }
 

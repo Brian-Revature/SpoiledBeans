@@ -2,7 +2,6 @@ package com.revature.services;
 
 import com.revature.dtos.*;
 import com.revature.entities.Movie;
-import com.revature.entities.Review;
 import com.revature.entities.User;
 import com.revature.entities.UserRole;
 import com.revature.exceptions.AuthenticationException;
@@ -10,18 +9,17 @@ import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.UserRepository;
 import com.revature.util.Encryption;
-import com.revature.web.intercom.OMDbClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * Service CLass which handles taking user data from the controller layer and passes it to the repo layer.
+ * Also accepts data from the repo layer and passes it to the controller level.
+ */
 @Service
 public class UserService {
 
@@ -31,18 +29,20 @@ public class UserService {
     private final AuthService authService;
     private final UserRepository userRepo;
     private final MovieService movieService;
-    private final OMDbClient omdb;
 
     @Autowired
-    public UserService(UserRepository repo, MovieService movieService, AuthService authService, OMDbClient omdb) {
+    public UserService(final UserRepository repo,final MovieService movieService,final AuthService authService) {
         this.userRepo = repo;
         this.movieService = movieService;
         this.authService = authService;
-        this.omdb = omdb;
     }
 
     //----------------------------------Users----------------------------------------------
 
+    /**
+     * Method to register a new user.
+     * @param userdto UserDTO containing data for new user.
+     */
     public void registerNewUser(final UserDTO userdto) {
         final User user = new User();
         userdto.setUserRole(UserRole.BASIC_USER.toString());
@@ -51,54 +51,99 @@ public class UserService {
         userValid(userdto);
 
         userRepo.save(user);
+        System.out.println(user);
     }
 
-    public User getUserById(int id) {
+    /**
+     * Method to retrieve a user by id.
+     * @param id id of user to retrieve.
+     * @return User object which the given id.
+     */
+    public User getUserById(final int id) {
         if (id <= 0 ) {
             throw new InvalidRequestException();
         }
         return userRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
     }
 
-    public User getUserByUsername(String username){
+    /**
+     * Method to retrieve a user by username.
+     * @param username username of a user.
+     * @return User object which matches given username.
+     */
+    public User getUserByUsername(final String username){
         if(username==null || username.trim().equals("")){
             throw new InvalidRequestException("Username cannot be empty or null");
         }
         return userRepo.findUserByUsername(username).orElseThrow(ResourceNotFoundException::new);
     }
 
-    public void save(User u) {
+    /**
+     * ave a User Object to database.
+     * @param u Username to save to database.
+     */
+    public void save(final User u) {
         userRepo.save(u);
     }
 
+    /**
+     * Method to update a User's information in database using UserDTO.
+     * @param userdto UserDTO containing updated user information
+     * @param user_id id of user to update.
+     */
     public void updateUser(final UserDTO userdto, final int user_id) {
         final User user = getUserById(user_id);
         mapUserFromDTO(user,userdto);
         userRepo.save(user);
     }
 
+    /**
+     * MEthod to update a User in database based User object.
+     * @param user User object with updated information.
+     */
     public void updateUser(final User user) {
         userRepo.save(user);
     }
 
     //----------------------------------------Favorites---------------------------------------
 
-    private FavoritesDTO getFavoritesDTO(User user){
-        FavoritesDTO favs = new FavoritesDTO();
+    /**
+     * Method to retrieve a User's favorites.
+     * @param user User object of user to retrieve favorites from.
+     * @return FavoritesDTO containing User's favorites.
+     */
+    private FavoritesDTO getFavoritesDTO(final User user){
+        final FavoritesDTO favs = new FavoritesDTO();
         favs.setUsername(user.getUsername());
         favs.setFavorites(user.getUserFavorites());
         return favs;
     }
 
-    public FavoritesDTO getUserFavorites(int id){
+    /**
+     * Method to retrieve a User's favorites using a user's id.
+     * @param id id of User to get favorites of.
+     * @return DTO containing list of user's favorites.
+     */
+    public FavoritesDTO getUserFavorites(final int id){
         return getFavoritesDTO(getUserById(id));
     }
 
-    public FavoritesDTO getUserFavorites(String username){
+    /**
+     * Method to get a user's favorite movies using username.
+     * @param username username of user ot get favorites of.
+     * @return DTO containing user's favorites.
+     */
+
+    public FavoritesDTO getUserFavorites(final String username){
         return getFavoritesDTO(getUserByUsername(username));
     }
 
-    public void addFavorite(final MoviesDTO moviesDTO, int id) {
+    /**
+     * Method to add a User favorite movie to database.
+     * @param moviesDTO DTO containing movie which is a user's favorite.
+     * @param id id of user who favorite this movie.
+     */
+    public void addFavorite(final MoviesDTO moviesDTO,final int id) {
         movieService.saveNewMovie(moviesDTO);
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         final User user = getUserById(id);
@@ -106,7 +151,12 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public void deleteUserFavorite(final MoviesDTO moviesDTO, int id) {
+    /**
+     * Method to delete a favorite movie form a user.
+     * @param moviesDTO DTO of the movie to delete form favorites.
+     * @param id id of user.
+     */
+    public void deleteUserFavorite(final MoviesDTO moviesDTO,final int id) {
         final User user = getUserById(id);
         final Movie movie = movieService.getMovieByName(moviesDTO.getName());
         if (!user.getUserFavorites().contains(movie))
@@ -116,27 +166,43 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public PrincipalDTO authenticate(String username, String password) {
-        User authUser = userRepo.findUserByUsernameAndPassword(username, Encryption.encrypt(password)).orElseThrow(AuthenticationException::new);
-        PrincipalDTO principal = new PrincipalDTO(authUser);
-        String token = authService.generateToken(principal);
+    /**
+     * Method to Authenticate a user when they login.
+     * @param username User name of usewr.
+     * @param password Password of user.
+     * @return DTO containing User's information.
+     */
+    public PrincipalDTO authenticate(final String username,final String password) {
+        final User authUser = userRepo.findUserByUsernameAndPassword(username, Encryption.encrypt(password)).orElseThrow(AuthenticationException::new);
+        final PrincipalDTO principal = new PrincipalDTO(authUser);
+        final String token = authService.generateToken(principal);
         principal.setToken(token);
         return principal;
     }
 
-    public List<Movie> getUserFavoritesByName(boolean ascending, int id) {
+    /**
+     * Method to get a sorted list of user's favorite movies sorted by movie name.
+     * @param ascending boolean indicating ascending/descending ordering.
+     * @param id id of user.
+     * @return sorted List of user's favorite movies.
+     */
+    public List<Movie> getUserFavoritesByName(final boolean ascending,final int id) {
         final User user = getUserById(id);
-        List<Movie> movies = user.getUserFavorites();
-        Comparator<Movie> compareByName = (ascending) ?
+        final List<Movie> movies = user.getUserFavorites();
+        final Comparator<Movie> compareByName = (ascending) ?
                 (Movie m1, Movie m2) -> m1.getName().compareTo(m2.getName()) :
                 (Movie m1, Movie m2) -> m2.getName().compareTo(m1.getName());
-        Collections.sort(movies,compareByName);
+        movies.sort(compareByName);
         return movies;
     }
 
     //-----------------------------------------Utility------------------------------------
 
-    //TODO: Replace Basic User functionality with a check for the given role.
+    /**
+     * Method to take in a UserDTO object and map it to a user object.
+     * @param user User object to map to.
+     * @param userdto  DTO to map user data from.
+     */
     private void mapUserFromDTO(final User user, final UserDTO userdto) {
         if(userdto.getUsername() != null && !userdto.getUsername().trim().equals(""))
             user.setUsername(userdto.getUsername());
@@ -154,6 +220,10 @@ public class UserService {
             user.setUserRole(UserRole.BASIC_USER);
     }
 
+    /**
+     * Method to check if a user is valid.
+     * @param userDTO DTO of user data to validate.
+     */
     private void userValid(final UserDTO userDTO){
         if (userDTO.getUsername() == null || userDTO.getUsername().trim().equals(""))
             throw new InvalidRequestException();

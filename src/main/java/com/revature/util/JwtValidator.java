@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtValidator {
 
-    private JwtConfig config;
+    private final JwtConfig config;
 
     /**
      * Constructor wiring in a JWTConfig object
      * @param config the JWTConfig object that configured JWTs from this application
      */
     @Autowired
-    public JwtValidator(JwtConfig config) {
+    public JwtValidator(final JwtConfig config) {
         this.config = config;
     }
 
@@ -28,16 +28,16 @@ public class JwtValidator {
      * @param token a string representing the encrypted token
      * @return a PrincipalDTO that sets the user ID, username and user role
      */
-    public PrincipalDTO parseToken(String token) {
+    public PrincipalDTO parseToken(final String token) {
 
-        Claims claims = Jwts.parser()
+        final Claims claims = Jwts.parser()
                 .setSigningKey(config.getSigningKey())
                 .parseClaimsJws(token)
                 .getBody();
 
-        int id = Integer.parseInt(claims.getId());
-        String username = claims.getSubject();
-        String role = claims.get("role", String.class);
+        final int id = Integer.parseInt(claims.getId());
+        final String username = claims.getSubject();
+        final String role = claims.get("role", String.class);
 
         return new PrincipalDTO(id, username, role);
 

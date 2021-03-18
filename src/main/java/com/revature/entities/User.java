@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *Class which represent a User of the site.
+ */
 @Entity @Table(name = "users")
 public class User {
 
@@ -57,7 +60,7 @@ public class User {
         super();
     }
 
-    public User(String username, String password, String email) {
+    public User(final String username,final String password,final String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -78,7 +81,7 @@ public class User {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -86,7 +89,7 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -94,7 +97,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -102,7 +105,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -110,7 +113,7 @@ public class User {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -118,7 +121,7 @@ public class User {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -126,7 +129,7 @@ public class User {
         return bio;
     }
 
-    public void setBio(String bio) {
+    public void setBio(final String bio) {
         this.bio = bio;
     }
 
@@ -134,7 +137,7 @@ public class User {
         return userRole;
     }
 
-    public void setUserRole(UserRole userRole) {
+    public void setUserRole(final UserRole userRole) {
         this.userRole = userRole;
     }
 
@@ -149,7 +152,7 @@ public class User {
         userFavorites.add(movie);
     }
 
-    public void setUserFavorites(List<Movie> userFavorites) {
+    public void setUserFavorites(final List<Movie> userFavorites) {
         this.userFavorites = userFavorites;
     }
 
@@ -157,7 +160,7 @@ public class User {
         return userReviews;
     }
 
-    public void setUserReviews(List<Review> userReviews) {
+    public void setUserReviews(final List<Review> userReviews) {
         this.userReviews = userReviews;
     }
 
@@ -176,10 +179,10 @@ public class User {
 
 
 @Override
-public boolean equals(Object o) {
+public boolean equals(final Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    User user = (User) o;
+    final User user = (User) o;
     return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(bio, user.bio) && userRole == user.userRole;
 }
 

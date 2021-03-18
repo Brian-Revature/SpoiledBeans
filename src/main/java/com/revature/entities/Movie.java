@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A Class to represent Movies as stored in database.
+ */
 @Entity @Table(name = "movies")
 public class Movie {
 
@@ -47,7 +50,7 @@ public class Movie {
         super();
     }
 
-    public Movie(String name, String director, int year) {
+    public Movie(final String name,final String director,final int year) {
         this.name = name;
         this.director = director;
         this.year = year;
@@ -57,7 +60,7 @@ public class Movie {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -65,7 +68,7 @@ public class Movie {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -73,7 +76,7 @@ public class Movie {
         return director;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(final String director) {
         this.director = director;
     }
 
@@ -81,7 +84,7 @@ public class Movie {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(final String genre) {
         this.genre = genre;
     }
 
@@ -89,7 +92,7 @@ public class Movie {
         return synopsis;
     }
 
-    public void setSynopsis(String synopsis) {
+    public void setSynopsis(final String synopsis) {
         this.synopsis = synopsis;
     }
 
@@ -123,10 +126,10 @@ public class Movie {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
+        final Movie movie = (Movie) o;
         return id == movie.id && year == movie.year && Objects.equals(name, movie.name) && Objects.equals(director, movie.director) && Objects.equals(genre, movie.genre) && Objects.equals(synopsis, movie.synopsis);
     }
 

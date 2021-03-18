@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 
 /**
- * This class is for generating error responses to display on the user side
+ * DTO for sending error response messages from backend to client.
  */
 public class ErrorResponse {
 
@@ -18,7 +18,7 @@ public class ErrorResponse {
         super();
     }
 
-    public ErrorResponse(int status, String message, long timestamp) {
+    public ErrorResponse(final int status,final String message,final long timestamp) {
         this.status = status;
         this.message = message;
         this.timestamp = timestamp;
@@ -28,7 +28,7 @@ public class ErrorResponse {
         return status;
     }
 
-    public ErrorResponse setStatus(int status) {
+    public ErrorResponse setStatus(final int status) {
         this.status = status;
         return this;
     }
@@ -37,7 +37,7 @@ public class ErrorResponse {
         return message;
     }
 
-    public ErrorResponse setMessage(String message) {
+    public ErrorResponse setMessage(final String message) {
         this.message = message;
         return this;
     }
@@ -46,7 +46,7 @@ public class ErrorResponse {
         return timestamp;
     }
 
-    public ErrorResponse setTimestamp(long timestamp) {
+    public ErrorResponse setTimestamp(final long timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -67,10 +67,10 @@ public class ErrorResponse {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ErrorResponse that = (ErrorResponse) o;
+        final ErrorResponse that = (ErrorResponse) o;
         return status == that.status &&
                 timestamp == that.timestamp &&
                 Objects.equals(message, that.message);

@@ -6,6 +6,9 @@ import com.revature.entities.UserRole;
 
 import java.util.Objects;
 
+/**
+ * DTO for Sending User data back to client after a successful login.
+ */
 public class PrincipalDTO {
 
     private int id;
@@ -15,14 +18,14 @@ public class PrincipalDTO {
     @JsonIgnore
     private String token;
 
-    public PrincipalDTO(User user){
+    public PrincipalDTO(final User user){
 
         this.id = user.getId();
         this.username = user.getUsername();
         this.userRole = UserRole.valueOf(user.getUserRole());
     }
 
-    public PrincipalDTO(int id, String username, String userRole){
+    public PrincipalDTO(final int id,final String username, final String userRole){
 
         this.id = id;
         this.username = username;
@@ -31,11 +34,11 @@ public class PrincipalDTO {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PrincipalDTO that = (PrincipalDTO) o;
-        return id == that.id && username.equals(that.username) && userRole.equals(that.userRole);
+        final PrincipalDTO that = (PrincipalDTO) o;
+        return id == that.id && username.equals(that.username) && userRole.equals(that.userRole) && token.equals(that.token);
     }
 
     @Override
@@ -57,7 +60,7 @@ public class PrincipalDTO {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -65,7 +68,7 @@ public class PrincipalDTO {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -73,7 +76,7 @@ public class PrincipalDTO {
         return userRole;
     }
 
-    public void setUserRole(String userRole) {
+    public void setUserRole(final String userRole) {
         this.userRole = userRole;
     }
 
@@ -81,7 +84,7 @@ public class PrincipalDTO {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(final String token) {
         this.token = token;
     }
 
