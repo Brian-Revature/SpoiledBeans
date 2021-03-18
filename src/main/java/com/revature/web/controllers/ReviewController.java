@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
 /**
- *
- *
+ *A Controller CLass which handles getting and sending of movies reviews to/form the site from/to the service layer.
+ * Class handles taking in a new review form a user. Can also delete a review made by a user.
+ *  Class can retrieve and send back reviews based on user name, but also sort list of reviews.
  */
 @RestController
 @RequestMapping("/reviews")
@@ -31,6 +32,12 @@ public class ReviewController {
     }
 
     //--------------------------------------General---------------------------------------------
+
+    /**
+     * Method to add a movie review to the database.
+     * @param movieReviewDTO DTO which contains the movie reveiw to persist in database.
+     * @param request holds the JWT to authenticate the user.
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path= "/addreview",consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addReview(@RequestBody final MovieReviewDTO movieReviewDTO,final HttpServletRequest request){
@@ -38,6 +45,11 @@ public class ReviewController {
         reviewService.addReview(movieReviewDTO, authService.getUserId(getToken(request)));
     }
 
+    /**
+     * Method to delete a User's movie review.
+     * @param reviewsDTO DTO containing the review to be deleted.
+     * @param request holds the JWT to authenticate the user.
+     */
     @DeleteMapping(path= "/deletereview", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void deleteReview(@RequestBody final ReviewsDTO reviewsDTO,final HttpServletRequest request){
         reviewService.deleteReview(reviewsDTO, authService.getUserId(getToken(request)));
@@ -45,21 +57,43 @@ public class ReviewController {
 
     //---------------------------------------Users----------------------------------------------
 
+    /**
+     * Method to get the movie reviews by the currently signed in User.
+     * @param request Holds the JWT which is used to authenticate and identify the User.
+     * @return DTO containing a list of all movie reviews by logged in User.
+     */
     @GetMapping(path= "/myreviews",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviews(final HttpServletRequest request) {
         return reviewService.getUserReviews(authService.getUserId(getToken(request)));
     }
 
+    /**
+     * MEthod to retrieve a list of movie reviews by a given User.
+     * @param username Username of the user whose movie reviews are desired.
+     * @return DTO containing a list of all movie reviews by the given username.
+     */
     @GetMapping(path= "/userreviews",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviewsByUser(@RequestParam final String username) {
         return reviewService.getUserReviews(username);
     }
 
+    /**
+     * Method to get a sorted list of movie reviews by the currently signed in user. List is sorted by Rating.
+     * @param ascending controls if list is sorted ascending or descending. true = ascending.
+     * @param request request which hold the JWT to authenticate and identify user.
+     * @return DTO containing sorted list of movie reviews by signed in user.
+     */
     @GetMapping(path= "/myreviewsbyrating",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviewsByRating(@RequestParam final boolean ascending,final HttpServletRequest request) {
         return reviewService.getUserReviewsRatingOrder(ascending, authService.getUserId(getToken(request)));
     }
 
+    /**
+     * Method to Retrieve a sorted list of movie reviews by current user sorted by date review was made.
+     * @param ascending controls if list is sorted ascending or descending. true = ascending.
+     * @param request request which hold the JWT to authenticate and identify user.
+     * @return DTO containing sorted list of movie reviews by signed in user.
+     */
     @GetMapping(path= "/myreviewsbytime",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviewsByTime(@RequestParam final boolean ascending,final HttpServletRequest request) {
         return reviewService.getUserReviewsTimeOrder(ascending, authService.getUserId(getToken(request)));
@@ -67,6 +101,11 @@ public class ReviewController {
 
     //------------------------------------------Movies--------------------------------------
 
+    /**
+     * Method
+     * @param name
+     * @return
+     */
     @GetMapping(path= "/moviereviews",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviewsByMovie(@RequestParam final String name) {
         return reviewService.getMovieReviews(name);
