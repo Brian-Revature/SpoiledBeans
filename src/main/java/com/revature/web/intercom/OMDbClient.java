@@ -18,14 +18,14 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class OMDbClient {
 
-    private RestTemplate restClient;
+    private final RestTemplate restClient;
 
     /**
      * Constructor that needs a rest template
      * @param restClient the rest template leveraged to call foreign apis
      */
     @Autowired
-    public OMDbClient(RestTemplate restClient){
+    public OMDbClient(final RestTemplate restClient){
         this.restClient = restClient;
     }
 
@@ -34,18 +34,18 @@ public class OMDbClient {
      * @param name the name of the movie
      * @return the movie object built from the response from the api
      */
-    public Movie getMovieInformation(String name){
-        String movieUrl = "http://www.omdbapi.com/?apikey=9235369b&t=";
-        String[] movieNames = name.split(" ");
+    public Movie getMovieInformation(final String name){
+        final StringBuilder movieUrl = new StringBuilder("http://www.omdbapi.com/?apikey=9235369b&t=");
+        final String[] movieNames = name.split(" ");
 
         for(int i = 0; i < movieNames.length; i++){
             if(i == movieNames.length-1){
-                movieUrl += movieNames[i];
+                movieUrl.append(movieNames[i]);
                 break;
             }
-            movieUrl += movieNames[i] + "+";
+            movieUrl.append(movieNames[i]).append("+");
         }
-        return parseOMDbBody(restClient.exchange(movieUrl, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody());
+        return parseOMDbBody(restClient.exchange(movieUrl.toString(), HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), String.class).getBody());
     }
 
     /**
@@ -59,8 +59,8 @@ public class OMDbClient {
         body = body.replace("Genre", "genre");
         body = body.replace("Plot", "plot");
         body = body.replace("Director", "director");
-        ObjectMapper mapper = new ObjectMapper();
-        Movie m = new Movie();
+        final ObjectMapper mapper = new ObjectMapper();
+        final Movie m = new Movie();
         OMDbDTO o = new OMDbDTO();
         try {
             o = mapper.readValue(body, OMDbDTO.class);
@@ -68,7 +68,7 @@ public class OMDbClient {
             e.printStackTrace();
         }
 
-        String[] genres = o.getGenre().split(",");
+        final String[] genres = o.getGenre().split(",");
 
         m.setName(o.getTitle());
         m.setDirector(o.getDirector());

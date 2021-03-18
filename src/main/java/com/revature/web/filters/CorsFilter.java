@@ -10,12 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class which configures CorsFilter for our application.
+ */
 @Component
 @WebFilter("/*")
 public class CorsFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(final HttpServletRequest httpServletRequest,final HttpServletResponse httpServletResponse,final FilterChain filterChain) throws ServletException, IOException {
         httpServletResponse.setHeader("Access-Control-Allow-Origin","*");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials","true");
         httpServletResponse.setHeader("Access-Control-Allow-Headers","Content-Type, spoiledBeans-token");
