@@ -54,7 +54,7 @@ public class ReviewController {
         return reviewService.getUserReviews(authService.getUserId(getToken(request)));
     }
 
-    @GetMapping(path= "/userreviews",produces= MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path= "/userreviews",produces= MediaType.APPLICATION_JSON_VALUE)
     public ReviewsDTO getUserReviewsByUser(@RequestParam String username) {
         return reviewService.getUserReviews(username);
     }

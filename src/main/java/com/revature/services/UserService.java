@@ -140,17 +140,9 @@ public class UserService {
     private void mapUserFromDTO(final User user, final UserDTO userdto) {
         if(userdto.getUsername() != null && !userdto.getUsername().trim().equals(""))
             user.setUsername(userdto.getUsername());
-<<<<<<< HEAD
         if(userdto.getPassword() != null && !userdto.getPassword().trim().equals(""))
             user.setPassword(Encryption.encrypt(userdto.getPassword()));
         if(userdto.getFirstName() != null && !userdto.getFirstName().trim().equals(""))
-=======
-        }
-        if(userdto.getPassword() != null && !userdto.getPassword().trim().equals("")) {
-            user.setPassword(Encryption.encrypt(userdto.getPassword()));
-        }
-        if(userdto.getFirstName() != null && !userdto.getFirstName().trim().equals("")) {
->>>>>>> 1ec2b0ea67ae874e097ef3dc27f6a31451cbef16
             user.setFirstName(userdto.getFirstName());
         if(userdto.getLastName() != null && !userdto.getLastName().trim().equals(""))
             user.setLastName(userdto.getLastName());
