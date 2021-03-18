@@ -6,41 +6,46 @@ import com.revature.util.JwtValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service CLass which handles A user logging in.
+ * User can log into an existing account and is given a JWT upon successfully logging in.
+
+ */
 @Service
 public class AuthService {
 
-    private JwtGenerator tokenGenerator;
-    private JwtValidator tokenValidator;
+    private final JwtGenerator tokenGenerator;
+    private final JwtValidator tokenValidator;
 
     @Autowired
-    public AuthService(JwtGenerator tokenGenerator, JwtValidator tokenValidator) {
+    public AuthService(final JwtGenerator tokenGenerator,final JwtValidator tokenValidator) {
         this.tokenGenerator = tokenGenerator;
         this.tokenValidator = tokenValidator;
     }
 
-    public String generateToken(PrincipalDTO subject) {
+    public String generateToken(final PrincipalDTO subject) {
         return tokenGenerator.createToken(subject);
     }
 
-    public boolean isTokenValid(String token) {
+    public boolean isTokenValid(final String token) {
         PrincipalDTO principal = tokenValidator.parseToken(token);
         return principal != null;
     }
 
-    public String getAuthorities(String token) {
+    public String getAuthorities(final String token) {
         return getPrincipal(token).getUserRole();
 
     }
 
-    public int getUserId(String token){
+    public int getUserId(final String token){
         return getPrincipal(token).getId();
     }
 
-    public String getUsername(String token){
+    public String getUsername(final String token){
         return getPrincipal(token).getUsername();
     }
 
-    private PrincipalDTO getPrincipal(String token){
+    private PrincipalDTO getPrincipal(final String token){
         PrincipalDTO principal = tokenValidator.parseToken(token);
 
         if (principal == null) {

@@ -1,10 +1,8 @@
 package com.revature.services;
 
-import com.revature.dtos.MovieReviewDTO;
 import com.revature.dtos.MoviesDTO;
 import com.revature.dtos.ReviewsDTO;
 import com.revature.entities.Movie;
-import com.revature.entities.User;
 import com.revature.exceptions.InvalidRequestException;
 import com.revature.exceptions.ResourceNotFoundException;
 import com.revature.repos.MovieRepository;
@@ -12,37 +10,37 @@ import com.revature.web.intercom.OMDbClient;
 import org.springframework.aop.AopInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
+/**
+ * Service CLass which handles getting Movie data from database or sending Movie data to database.
+ */
 @Service
 public class MovieService {
 
-    private MovieRepository movieRepo;
-    private OMDbClient omdb;
+    private final MovieRepository movieRepo;
+    private final OMDbClient omdb;
 
     @Autowired
-    public MovieService(MovieRepository movieRepo, OMDbClient omdb) {
+    public MovieService(final MovieRepository movieRepo,final OMDbClient omdb) {
         this.movieRepo = movieRepo;
         this.omdb = omdb;
     }
 
-    public void save(Movie m){
+    public void save(final Movie m){
         movieRepo.save(m); }
 
-    public boolean saveNewMovie(Movie m){
-        Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
+    public boolean saveNewMovie(final Movie m){
+        final Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
         if(movie.isPresent()){
             return false; }
         movieRepo.save(omdb.getMovieInformation(m.getName()));
         return true;
     }
 
-    public boolean saveNewMovie(MoviesDTO m){
-        Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
+    public boolean saveNewMovie(final MoviesDTO m){
+        final Optional<Movie> movie = movieRepo.findMovieByName(m.getName());
         if(movie.isPresent()){
             return false; }
         movieRepo.save(omdb.getMovieInformation(m.getName()));
@@ -53,10 +51,10 @@ public class MovieService {
         return (List<Movie>) movieRepo.findAll();
     }
 
-    public Movie getMovieById(int id){
+    public Movie getMovieById(final int id){
         if(id <= 0){
             throw new InvalidRequestException(); }
-        Movie m = movieRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
+        final Movie m = movieRepo.findById(id).orElseThrow(ResourceNotFoundException::new);
         try {
             m.setRating(movieRepo.findMovieRating(m.getName()));
         }catch(AopInvocationException e){
@@ -65,8 +63,8 @@ public class MovieService {
         return m;
     }
 
-    public Movie getMovieByName(String name){
-        Movie m = movieRepo.findMovieByName(name).orElseThrow(ResourceNotFoundException::new);
+    public Movie getMovieByName(final String name){
+        final Movie m = movieRepo.findMovieByName(name).orElseThrow(ResourceNotFoundException::new);
         try {
             m.setRating(movieRepo.findMovieRating(name));
         }catch(AopInvocationException e){
@@ -75,23 +73,22 @@ public class MovieService {
         return m;
     }
 
-    public List<Movie> getMoviesByYear(int year){
+    public List<Movie> getMoviesByYear(final int year){
         return movieRepo.findMoviesByYear(year);
     }
 
-    public List<Movie> getMoviesByGenre(String genre){
+    public List<Movie> getMoviesByGenre(final String genre){
         return movieRepo.findMoviesByGenre(genre);
     }
 
-    public List<Movie> getMoviesByDirector(String director){
+    public List<Movie> getMoviesByDirector(final String director){
         return movieRepo.findMoviesByDirector(director);
     }
 
-    public ReviewsDTO getReviewDTO(Movie movie){
-        ReviewsDTO revs = new ReviewsDTO();
+    public ReviewsDTO getReviewDTO(final Movie movie){
+        final ReviewsDTO revs = new ReviewsDTO();
         revs.setMovie(movie.getName());
         revs.setReviews(movie.getAllReviews());
-
         return revs;
     }
 }

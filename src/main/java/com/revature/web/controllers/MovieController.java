@@ -29,7 +29,7 @@ public class MovieController {
      * @param movieService  the inbetween for the controller and the MovieRepository that handles the business logic
      */
     @Autowired
-    public MovieController(MovieService movieService){
+    public MovieController(final MovieService movieService){
         this.movieService = movieService;
     }
 
@@ -48,7 +48,7 @@ public class MovieController {
      * @return return a specific movie
      */
     @GetMapping(path = "/id", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Movie getMovieById(@RequestParam int id){
+    public Movie getMovieById(@RequestParam final int id){
         return movieService.getMovieById(id);
     }
 
@@ -58,7 +58,7 @@ public class MovieController {
      * @return return a specific movie
      */
     @GetMapping(path = "/name", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Movie getMovieByName(@RequestParam String name){
+    public Movie getMovieByName(@RequestParam final String name){
         return movieService.getMovieByName(name);
     }
 
@@ -68,7 +68,7 @@ public class MovieController {
      * @return return a list of movies
      */
     @GetMapping(path = "/year", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Movie> getMoviesByYear(@RequestParam int year){
+    public List<Movie> getMoviesByYear(@RequestParam final int year){
         return movieService.getMoviesByYear(year);
     }
 
@@ -78,7 +78,7 @@ public class MovieController {
      * @return return a list of movies
      */
     @GetMapping(path = "/genre", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Movie> getMoviesByGenre(@RequestParam String genre){
+    public List<Movie> getMoviesByGenre(@RequestParam final String genre){
         return movieService.getMoviesByGenre(genre);
     }
     /**
@@ -87,7 +87,7 @@ public class MovieController {
      * @return return a list of movies
      */
     @GetMapping(path = "/director", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Movie> getMoviesByDirector(@RequestParam String director){
+    public List<Movie> getMoviesByDirector(@RequestParam final String director){
         return movieService.getMoviesByDirector(director);
     }
 
@@ -99,8 +99,8 @@ public class MovieController {
      */
     @Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/director", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setDirector(@RequestBody Movie m){
-        Movie movie = movieService.getMovieByName(m.getName());
+    public void setDirector(@RequestBody final Movie m){
+        final Movie movie = movieService.getMovieByName(m.getName());
         movie.setDirector(m.getDirector());
         movieService.save(movie);
     }
@@ -111,8 +111,8 @@ public class MovieController {
      */
     @Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/genre", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setGenre(@RequestBody Movie m){
-        Movie movie = movieService.getMovieByName(m.getName());
+    public void setGenre(@RequestBody final  Movie m){
+        final Movie movie = movieService.getMovieByName(m.getName());
         movie.setGenre(m.getGenre());
         movieService.save(movie);
     }
@@ -123,8 +123,8 @@ public class MovieController {
      */
     @Secured(allowedRoles = {"Admin"})
     @PutMapping(path = "/synopsis", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setSynopsis(@RequestBody Movie m){
-        Movie movie = movieService.getMovieByName(m.getName());
+    public void setSynopsis(@RequestBody final Movie m){
+        final Movie movie = movieService.getMovieByName(m.getName());
         movie.setSynopsis(m.getSynopsis());
         movieService.save(movie);
     }
@@ -139,7 +139,7 @@ public class MovieController {
     @ResponseStatus(HttpStatus.CREATED)
     @Secured(allowedRoles = {"Admin"})
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public void addMovieByName(@RequestBody Movie m){
+    public void addMovieByName(@RequestBody final Movie m){
         if(movieService.saveNewMovie(m)){
             System.out.println("movie saved");
         }else{

@@ -2,7 +2,6 @@ package com.revature.web.controllers;
 
 import com.revature.dtos.*;
 import com.revature.entities.Movie;
-import com.revature.entities.Review;
 import com.revature.entities.User;
 import com.revature.exceptions.AuthenticationException;
 import com.revature.services.AuthService;
@@ -12,12 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * An endpoint that controls interactions with user and a user's list of favorite movies
@@ -31,7 +26,7 @@ public class UserController {
     private final AuthService authService;
 
     @Autowired
-    public UserController(UserService userService, AuthService authService) {
+    public UserController(final UserService userService,final AuthService authService) {
         this.userService = userService;
         this.authService = authService;
     }
@@ -42,7 +37,7 @@ public class UserController {
      * @return
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserById(HttpServletRequest request) {
+    public User getUserById(final HttpServletRequest request) {
         return userService.getUserById(authService.getUserId(getToken(request)));
     }
 
@@ -52,7 +47,7 @@ public class UserController {
      * @return
      */
     @GetMapping(path = "/getuserbyusername", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserByUsername(@RequestParam String username) {
+    public User getUserByUsername(@RequestParam final String username) {
         return userService.getUserByUsername(username);
     }
 
@@ -62,7 +57,7 @@ public class UserController {
      * @param request
      */
     @PutMapping(path = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public void updateUser(@RequestBody UserDTO userdto, HttpServletRequest request) {
+    public void updateUser(@RequestBody final UserDTO userdto,final HttpServletRequest request) {
         userService.updateUser(userdto, authService.getUserId(getToken(request)));
     }
 
@@ -74,7 +69,7 @@ public class UserController {
      * @return
      */
     @GetMapping(path= "/myfavorites",produces= MediaType.APPLICATION_JSON_VALUE)
-    public FavoritesDTO getUserFavorites(HttpServletRequest request) {
+    public FavoritesDTO getUserFavorites(final HttpServletRequest request) {
         return userService.getUserFavorites(authService.getUserId(getToken(request)));
     }
 
@@ -84,7 +79,7 @@ public class UserController {
      * @return
      */
     @GetMapping(path= "/userfavorites",produces= MediaType.APPLICATION_JSON_VALUE)
-    public FavoritesDTO getUserFavorites(@RequestParam String username) {
+    public FavoritesDTO getUserFavorites(@RequestParam final String username) {
         return userService.getUserFavorites(username);
     }
 
@@ -95,7 +90,7 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path="/addfavorite",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addFavoriteMovie(@RequestBody final MoviesDTO moviesdto, HttpServletRequest request) {
+    public void addFavoriteMovie(@RequestBody final MoviesDTO moviesdto,final HttpServletRequest request) {
         userService.addFavorite(moviesdto, authService.getUserId(getToken(request)));
     }
 
@@ -105,7 +100,7 @@ public class UserController {
      * @param request
      */
     @DeleteMapping(path = "/deletefavorite",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteUserFavorite(@RequestBody final MoviesDTO moviesDTO, HttpServletRequest request) {
+    public void deleteUserFavorite(@RequestBody final MoviesDTO moviesDTO,final HttpServletRequest request) {
         userService.deleteUserFavorite(moviesDTO, authService.getUserId(getToken(request)));
     }
 
@@ -116,14 +111,14 @@ public class UserController {
      * @return
      */
     @GetMapping(path= "/favoritesbyname",produces= MediaType.APPLICATION_JSON_VALUE)
-    public List<Movie> getUserFavoritesByName(@RequestParam boolean ascending, HttpServletRequest request) {
+    public List<Movie> getUserFavoritesByName(@RequestParam boolean ascending,final HttpServletRequest request) {
         return userService.getUserFavoritesByName(ascending, authService.getUserId(getToken(request)));
     }
 
     //----------------------------------------------------------------------------
     // Helper method to process a user's cookies
-    private String getToken(HttpServletRequest request){
-        String token = request.getHeader("spoiledBeans-token");
+    private String getToken(final HttpServletRequest request){
+        final String token = request.getHeader("spoiledBeans-token");
         if(token.trim().equals("")){
             throw new AuthenticationException("You are not an authenticated account");
         }
