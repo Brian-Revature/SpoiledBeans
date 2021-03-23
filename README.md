@@ -1,5 +1,6 @@
 # SpoiledBeans
-Movie Review/Rating/Favorites List service to help compare movies. This project was a fun way to flesh out Full-Stack capabilities, with the front end of this application accessible here: https://github.com/Brian-Revature/SpoiledBeansUI
+Movie Review/Rating/Favorites List service to help compare movies. This project was a fun way to flesh out Full-Stack capabilities, with the front end of this application accessible here: 
+https://github.com/Brian-Revature/SpoiledBeansUI
 
 ## Project Description
 Spoiled Beans is a service that helps you Review movies, organize a list of your favorite movies, and also view details about movies. It also features the ability to create users, edit user data, review movies, insert and automatically populate movie data.
